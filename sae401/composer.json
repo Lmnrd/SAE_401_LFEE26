@@ -1,0 +1,5 @@
+{
+    "require": {
+        "symfony/ux-react": "^2.32"
+    }
+}
