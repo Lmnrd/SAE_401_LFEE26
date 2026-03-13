@@ -1,19 +1,21 @@
-import TestAff from "./TestAff";
+import { useEffect, useState } from "react";
 
 function App() {
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/test")
+      .then(res => res.json())
+      .then(data => setData(data));
+  }, []);
+
   return (
-    <div className="app-main">
-      <header style={{ padding: '2rem 0', borderBottom: '1px solid var(--border)' }}>
-        <h1>SAE 401 - Dashboard</h1>
-      </header>
-      <main>
-        <TestAff />
-      </main>
-      <footer style={{ padding: '2rem', marginTop: 'auto', opacity: 0.6, fontSize: '0.8rem' }}>
-        <p>&copy; 2026 - SAE 401 LFEE26 - React + Symfony API</p>
-      </footer>
+    <div>
+      <h1>Connexion React + Symfony</h1>
+      {data && <p>{data.message}</p>}
     </div>
   );
 }
 
-export default App;
+export default App;
