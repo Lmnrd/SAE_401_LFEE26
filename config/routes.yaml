@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
+
+# This file is the entry point to configure the routes of your app.
+# Methods with the #[Route] attribute are automatically imported.
+# See also https://symfony.com/doc/current/routing.html
+
+# To list all registered routes, run the following command:
+#   bin/console debug:router
+
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+app_critere:
+    path: /api/critere
+    controller: App\Controller\StatistiqueController::critere
+    methods: [GET]
+
+app_logements:
+    path: /api/logements
+    controller: App\Controller\StatistiqueController::logements
+    methods: [GET]
+
+app_parc_social:
+    path: /api/parc-social
+    controller: App\Controller\StatistiqueController::parcSocial
+    methods: [GET]
+
+app_taux_logement:
+    path: /api/taux-logement
+    controller: App\Controller\StatistiqueController::tauxLogement
+    methods: [GET]
+
+app_taux_population:
+    path: /api/taux-population
+    controller: App\Controller\StatistiqueController::tauxPopulation
+    methods: [GET]
