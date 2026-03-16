@@ -30,6 +30,12 @@ class TauxLogement
     #[Groups(['taux_logement'])]
     private ?int $nombreLogements = null;
 
+    // === RELATION : TauxLogement -> Critere (ManyToOne) ===
+    #[ORM\ManyToOne(targetEntity: Critere::class, inversedBy: 'tauxLogements')]
+    #[ORM\JoinColumn(name: 'critere_id', referencedColumnName: 'id')]
+    #[Groups(['taux_logement'])]
+    private ?Critere $critere = null;
+
     public function getId(): ?int { return $this->id; }
     public function setId(int $id): static { $this->id = $id; return $this; }
 
@@ -44,4 +50,8 @@ class TauxLogement
 
     public function getNombreLogements(): ?int { return $this->nombreLogements; }
     public function setNombreLogements(?int $nombreLogements): static { $this->nombreLogements = $nombreLogements; return $this; }
+
+    // Getter/Setter pour la relation
+    public function getCritere(): ?Critere { return $this->critere; }
+    public function setCritere(?Critere $critere): static { $this->critere = $critere; return $this; }
 }

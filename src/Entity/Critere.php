@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity]
@@ -30,6 +32,27 @@ class Critere
     #[Groups(['critere'])]
     private ?string $nombreHabitants = null;
 
+    // Relations inverses (un critère peut être lié à plusieurs lignes dans chaque table)
+    #[ORM\OneToMany(targetEntity: Logements::class, mappedBy: 'critere')]
+    private Collection $logements;
+
+    #[ORM\OneToMany(targetEntity: ParcSocial::class, mappedBy: 'critere')]
+    private Collection $parcSociaux;
+
+    #[ORM\OneToMany(targetEntity: TauxLogement::class, mappedBy: 'critere')]
+    private Collection $tauxLogements;
+
+    #[ORM\OneToMany(targetEntity: TauxPopulation::class, mappedBy: 'critere')]
+    private Collection $tauxPopulations;
+
+    public function __construct()
+    {
+        $this->logements = new ArrayCollection();
+        $this->parcSociaux = new ArrayCollection();
+        $this->tauxLogements = new ArrayCollection();
+        $this->tauxPopulations = new ArrayCollection();
+    }
+
     public function getId(): ?int { return $this->id; }
     public function setId(int $id): static { $this->id = $id; return $this; }
 
@@ -44,4 +67,16 @@ class Critere
 
     public function getNombreHabitants(): ?string { return $this->nombreHabitants; }
     public function setNombreHabitants(?string $nombreHabitants): static { $this->nombreHabitants = $nombreHabitants; return $this; }
+
+    /** @return Collection<int, Logements> */
+    public function getLogements(): Collection { return $this->logements; }
+
+    /** @return Collection<int, ParcSocial> */
+    public function getParcSociaux(): Collection { return $this->parcSociaux; }
+
+    /** @return Collection<int, TauxLogement> */
+    public function getTauxLogements(): Collection { return $this->tauxLogements; }
+
+    /** @return Collection<int, TauxPopulation> */
+    public function getTauxPopulations(): Collection { return $this->tauxPopulations; }
 }
