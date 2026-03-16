@@ -30,7 +30,6 @@ class TauxLogement
     #[Groups(['taux_logement'])]
     private ?int $nombreLogements = null;
 
-    // === RELATION : TauxLogement -> Critere (ManyToOne) ===
     #[ORM\ManyToOne(targetEntity: Critere::class, inversedBy: 'tauxLogements')]
     #[ORM\JoinColumn(name: 'critere_id', referencedColumnName: 'id')]
     #[Groups(['taux_logement'])]
