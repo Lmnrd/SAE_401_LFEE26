@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import ParcSocialChart from "../chart/ParcSocialChart";
+import TauxLogementsChart from "../chart/TauxLogementsChart";
 
-export default function ParcSocialPage() {
+export default function TauxLogementsPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/parc-social")
+        fetch("http://localhost:8000/api/taux-logement")
             .then((res) => {
                 if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
                 return res.json();
@@ -20,8 +20,8 @@ export default function ParcSocialPage() {
 
     return (
         <div style={{ maxWidth: "800px", margin: "2rem auto" }}>
-            <h2>Parc Social</h2>
-            <ParcSocialChart data={data} />
+            <h2>Taux Logements</h2>
+            <TauxLogementsChart data={data} />
         </div>
     );
 }
