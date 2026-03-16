@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+import ParcSocialPage from "./pages/ParcSocialPage";
+
+function App() {
+  return (
+    <div>
+      <h1>Statistiques Logement</h1>
+      <ParcSocialPage />
+=======
 import { useEffect, useState } from "react";
 import MapFrance from "./components/MapFrance";
 
@@ -19,6 +28,7 @@ function App() {
       
       {/* Intégration de la carte */}
       <MapFrance />
+>>>>>>> 66d7d7d37559777b301626b3300b8ca13dd0ec25
     </div>
   );
 }
