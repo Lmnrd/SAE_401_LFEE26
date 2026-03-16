@@ -17,15 +17,15 @@ class Critere
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere'])]
+    #[Groups(['critere', 'parc_social'])]
     private ?string $anneePublication = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere'])]
+    #[Groups(['critere', 'parc_social'])]
     private ?string $nomDepartement = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere'])]
+    #[Groups(['critere', 'parc_social'])]
     private ?string $nomRegion = null;
 
     #[ORM\Column(length: 255, nullable: true)]
