@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ParcSocialPage from "./pages/ParcSocialPage";
 import MapFrance from "./components/MapFrance";
-import ParcSocialPage from "./pages/ParcSocialPage";
 
 function App() {
   const [data, setData] = useState(null);
@@ -15,25 +14,13 @@ function App() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Statistiques Logement & Carte Interactive</h1>
-      
+      <h1>Carte Interactive</h1>
+
       {/* Test de l'API de base */}
       {data && <p>{data.message}</p>}
-<<<<<<< HEAD
-      
-      {/* Historique: Graphiques du Parc Social */}
+
       <ParcSocialPage />
-
-      {/* Intégration de la nouvelle carte */}
       <MapFrance />
-=======
-
-      {/* Intégration de la carte */}
-      <MapFrance />
-
-      {/* Statistiques Logement */}
-      <ParcSocialPage />
->>>>>>> 6333a75b89a9cef42f3280dcc9539dab0ec605e4
     </div>
   );
 }
