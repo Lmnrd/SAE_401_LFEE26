@@ -1,0 +1,139 @@
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+.map-view {
+  width: 100%;
+  /* Removed white/gray backgrounds as requested */
+  background-color: transparent;
+  padding: 10px;
+}
+
+/* Modal Overlay Styling for Map Info */
+.map-info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(3px); /* nice subtle blur */
+}
+
+.info-card {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  /* Animation for popup */
+  animation: popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #7f8c8d;
+  cursor: pointer;
+  line-height: 1;
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  font-size: 1.5rem;
+  padding-right: 30px; /* space for close button */
+}
+
+.info-card p {
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.db-data {
+  margin-top: 20px;
+}
+
+.db-data h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.db-data ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.db-data li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ecf0f1;
+  color: #34495e;
+}
+
+.db-data li:last-child {
+  border-bottom: none;
+}
+
+.db-data li strong {
+  color: #2980b9;
+}
+
+.error-text {
+  color: #e74c3c !important;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.no-data {
+  color: #7f8c8d !important;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Tooltip Customization */
+#france-tooltip {
+  background-color: rgba(44, 62, 80, 0.95);
+  color: white;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
