@@ -30,6 +30,11 @@ class ParcSocial
     #[Groups(['parc_social'])]
     private ?int $ventesPersonnesPhysiques = null;
 
+    #[ORM\OneToOne(targetEntity: Critere::class)]
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id')]
+    #[Groups(['parc_social'])]
+    private ?Critere $critere = null;
+
     public function getId(): ?int { return $this->id; }
     public function setId(int $id): static { $this->id = $id; return $this; }
 
@@ -44,4 +49,7 @@ class ParcSocial
 
     public function getVentesPersonnesPhysiques(): ?int { return $this->ventesPersonnesPhysiques; }
     public function setVentesPersonnesPhysiques(?int $ventesPersonnesPhysiques): static { $this->ventesPersonnesPhysiques = $ventesPersonnesPhysiques; return $this; }
+
+    public function getCritere(): ?Critere { return $this->critere; }
+    public function setCritere(?Critere $critere): static { $this->critere = $critere; return $this; }
 }
