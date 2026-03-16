@@ -17,7 +17,9 @@ final class StatistiqueController extends AbstractController
     public function critere(EntityManagerInterface $entityManager): Response
     {
         $criteres = $entityManager->getRepository(Critere::class)->findAll();
-        return $this->json($criteres, 200, [], [
+        return $this->json($criteres, 200, [
+            'Access-Control-Allow-Origin' => '*'
+        ], [
             'groups' => ['critere']
         ]);
     }
@@ -25,7 +27,9 @@ final class StatistiqueController extends AbstractController
     public function logements(EntityManagerInterface $entityManager): Response
     {
         $logements = $entityManager->getRepository(Logements::class)->findAll();
-        return $this->json($logements, 200, [], [
+        return $this->json($logements, 200, [
+            'Access-Control-Allow-Origin' => '*'
+        ], [
             'groups' => ['logements']
         ]);
     }
@@ -33,7 +37,9 @@ final class StatistiqueController extends AbstractController
     public function parcSocial(EntityManagerInterface $entityManager): Response
     {
         $parcSocial = $entityManager->getRepository(ParcSocial::class)->findAll();
-        return $this->json($parcSocial, 200, [], [
+        return $this->json($parcSocial, 200, [
+            'Access-Control-Allow-Origin' => '*'
+        ], [
             'groups' => ['parc_social']
         ]);
     }
@@ -41,7 +47,9 @@ final class StatistiqueController extends AbstractController
     public function tauxLogement(EntityManagerInterface $entityManager): Response
     {
         $tauxLogement = $entityManager->getRepository(TauxLogement::class)->findAll();
-        return $this->json($tauxLogement, 200, [], [
+        return $this->json($tauxLogement, 200, [
+            'Access-Control-Allow-Origin' => '*'
+        ], [
             'groups' => ['taux_logement']
         ]);
     }
@@ -49,7 +57,9 @@ final class StatistiqueController extends AbstractController
     public function tauxPopulation(EntityManagerInterface $entityManager): Response
     {
         $tauxPopulation = $entityManager->getRepository(TauxPopulation::class)->findAll();
-        return $this->json($tauxPopulation, 200, [], [
+        return $this->json($tauxPopulation, 200, [
+            'Access-Control-Allow-Origin' => '*'
+        ], [
             'groups' => ['taux_population']
         ]);
     }

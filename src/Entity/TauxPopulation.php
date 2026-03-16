@@ -14,19 +14,19 @@ class TauxPopulation
     #[Groups(['taux_population'])]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(name: "pourc_population_moins_20_ans", nullable: true)]
     #[Groups(['taux_population'])]
     private ?float $pourcPopulationMoins20Ans = null;
-
-    #[ORM\Column(nullable: true)]
+    
+    #[ORM\Column(name: "pourc_population_60_ans_et_plus", nullable: true)]
     #[Groups(['taux_population'])]
     private ?float $pourcPopulation60AnsEtPlus = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(name: "pourc_variation_population_sur_10_ans", nullable: true)]
     #[Groups(['taux_population'])]
     private ?float $pourcVariationPopulationSur10Ans = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(name: "densite_population_au_km_carre", nullable: true)]
     #[Groups(['taux_population'])]
     private ?float $densitePopulationAuKmCarre = null;
 

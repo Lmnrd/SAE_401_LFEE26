@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MapFrance from "./components/MapFrance";
 
 function App() {
 
@@ -7,13 +8,17 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:8000/api/test")
       .then(res => res.json())
-      .then(data => setData(data));
+      .then(data => setData(data))
+      .catch(err => console.error("API error:", err));
   }, []);
 
   return (
-    <div>
-      <h1>Connexion React + Symfony</h1>
+    <div style={{ padding: '20px' }}>
+      <h1>Ma Carte de France Interactive</h1>
       {data && <p>{data.message}</p>}
+      
+      {/* Intégration de la carte */}
+      <MapFrance />
     </div>
   );
 }
