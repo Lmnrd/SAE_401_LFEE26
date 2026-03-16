@@ -17,22 +17,22 @@ class Critere
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere', 'parc_social'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement'])]
     private ?string $anneePublication = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere', 'parc_social'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement'])]
     private ?string $nomDepartement = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere', 'parc_social'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement'])]
     private ?string $nomRegion = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['critere'])]
     private ?string $nombreHabitants = null;
 
-    // Relations inverses (un critère peut être lié à plusieurs lignes dans chaque table)
+    // un seul critère est relié à plusieurs données comme les logements et les taux
     #[ORM\OneToMany(targetEntity: Logements::class, mappedBy: 'critere')]
     private Collection $logements;
 

@@ -50,7 +50,7 @@ class TauxLogement
     public function getNombreLogements(): ?int { return $this->nombreLogements; }
     public function setNombreLogements(?int $nombreLogements): static { $this->nombreLogements = $nombreLogements; return $this; }
 
-    // Getter/Setter pour la relation
+    // getter et setter pour la relation
     public function getCritere(): ?Critere { return $this->critere; }
     public function setCritere(?Critere $critere): static { $this->critere = $critere; return $this; }
 }

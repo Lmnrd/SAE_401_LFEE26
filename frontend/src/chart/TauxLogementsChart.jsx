@@ -27,14 +27,12 @@ ChartJS.register(
 export default function TauxLogementsChart({ data }) {
     if (!data || data.length === 0) return <p>Aucune donnée disponible.</p>;
 
-    const sampleData = data.slice(0, 5); //limite à 5 éléments
+    const sampleData = data.slice(0, 25); //limite les éléments, avec la valeur après la virgule
     const labels = sampleData.map((item) => item.critere?.nomDepartement || `ID ${item.id}`);
     //utilisation la relation critere pour afficher le nom du département grâce à la clé étrangere et le oneToMany ou Many
 
 
-    // ==========================================
     // 1er Graphique : Pie
-    // ==========================================
     const firstItem = sampleData[0];
     const pieData = {
         labels: ["Logements Sociaux (%)", "Logements Vacants (%)", "Logements Individuels (%)"],
@@ -61,9 +59,8 @@ export default function TauxLogementsChart({ data }) {
         ],
     };
 
-    // ==========================================
+
     // 2ème Graphique : Line
-    // ==========================================
     const lineData = {
         labels: labels,
         datasets: [
@@ -94,20 +91,19 @@ export default function TauxLogementsChart({ data }) {
         },
     };
 
-    // ==========================================
+
     // 3ème Graphique : Doughnut
-    // ==========================================
     const doughnutData = {
-        labels: labels,
+        labels: ["Logements Sociaux (%)", "Logements totaux (%)"],
         datasets: [{
-            label: 'Taux Logements Sociaux (%)',
-            data: sampleData.map((item) => item.pourcTauxLogementsSociaux),
+            label: `Proportion pour ${firstItem.critere?.nomDepartement || 'département'}`,
+            data: [
+                firstItem.pourcTauxLogementsSociaux,
+                100 - firstItem.pourcTauxLogementsSociaux
+            ],
             backgroundColor: [
-                'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(153, 102, 255)'
+                'rgb(220, 220, 220)'
             ],
             hoverOffset: 4
         }]
@@ -129,7 +125,7 @@ export default function TauxLogementsChart({ data }) {
 
             {/* Graphique Doughnut */}
             <div style={{ width: "400px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>3. Taux Logements Sociaux</h3>
+                <h3 style={{ textAlign: "center" }}>3. Proportion de Logements Sociaux ({firstItem.critere?.nomDepartement})</h3>
                 <Doughnut data={doughnutData} />
             </div>
         </div>
