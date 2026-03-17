@@ -21,24 +21,19 @@ export default function TauxLogementsPage() {
             .then((json) => {
                 setData(json);
 
-                // Extraction des années uniques
+                // extraction des années du json
                 const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))]
                     .filter(Boolean)
                     .sort();
                 setYears(uniqueYears);
 
-                // Extraction des départements uniques
+                // extraction des départements du json
                 const uniqueNames = [...new Set(json.map(item => item.critere?.nomDepartement))]
                     .filter(Boolean)
                     .sort();
                 setNames(uniqueNames);
 
-                // Valeur par défaut pour l'année (la plus récente)
-                if (uniqueYears.length > 0) {
-                    setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
-                } else {
-                    setFilteredData(json);
-                }
+                setFilteredData(json); //valeur de base dans le filtre
             })
             .catch((err) => setError(err.message));
     }, []);
@@ -68,7 +63,7 @@ export default function TauxLogementsPage() {
     if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
     if (!data) return <p>Chargement des données...</p>;
 
-    //FILTRE
+    //FILTRE années et départements
     return (
         <div style={{ maxWidth: "900px", margin: "2rem auto", padding: "0 1rem" }}>
             <h2>Taux Logements</h2>
@@ -112,7 +107,7 @@ export default function TauxLogementsPage() {
                     </select>
                 </div>
             </div>
-
+            {/*ici on appelle le graphique*/}
             <TauxLogementsChart data={filteredData} />
         </div>
     );
