@@ -3,14 +3,15 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 
 // Enregistrement des modules Chart.js nécessaires
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 export default function ParcSocialChart({ data }) {
   if (!data || data.length === 0) return <p>Aucune donnée à afficher pour le graphique.</p>;
@@ -23,13 +24,17 @@ export default function ParcSocialChart({ data }) {
     if (!acc[region]) {
       acc[region] = {
         nombreLogements: 0,
-        logementsDemolis: 0
+        logementsDemolis: 0,
+        logementsLocation: 0,
+        ventesPersonnesPhysiques: 0
       };
     }
 
     // Propriétés de l'entité ParcSocial
     acc[region].nombreLogements += item.nombreLogements || 0;
     acc[region].logementsDemolis += item.logementsDemolis || 0;
+    acc[region].logementsLocation += item.logementsLocation || 0;
+    acc[region].ventesPersonnesPhysiques += item.ventesPersonnesPhysiques || 0;
 
     return acc;
   }, {});
@@ -58,6 +63,27 @@ export default function ParcSocialChart({ data }) {
     ],
   };
 
+  const totalLocation = Object.values(aggregatedData).reduce((sum, r) => sum + r.logementsLocation, 0);
+  const totalVentes = Object.values(aggregatedData).reduce((sum, r) => sum + r.ventesPersonnesPhysiques, 0);
+
+  const doughnutData = {
+    labels: ["Logements mis en location", "Ventes à des personnes physiques"],
+    datasets: [
+      {
+        data: [totalLocation, totalVentes],
+        backgroundColor: [
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(255, 159, 64, 0.7)",
+        ],
+        borderColor: [
+          "rgba(75, 192, 192, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   const options = {
     responsive: true,
     plugins: {
@@ -76,5 +102,30 @@ export default function ParcSocialChart({ data }) {
     },
   };
 
-  return <Bar data={chartData} options={options} />;
+  const doughnutOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Location vs Ventes (Total)",
+      },
+    },
+  };
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "center" }}>
+      <div style={{ flex: "1 1 500px", minWidth: "300px" }}>
+        <Bar data={chartData} options={options} />
+      </div>
+      <div style={{ flex: "1 1 400px", minWidth: "300px" }}>
+        <Doughnut data={doughnutData} options={doughnutOptions} />
+      </div>
+    </div>
+  );
 }
+
+
+
