@@ -1,4 +1,4 @@
-import {
+import { //import des bibliothèques nécessaires pour les graphiques
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
@@ -14,7 +14,7 @@ import { Pie, Line, Doughnut } from "react-chartjs-2";
 import "../css_pages/tauxLogements.css";
 
 
-ChartJS.register(
+ChartJS.register( //import des éléments nécessaires pour les graphiques
     CategoryScale,
     LinearScale,
     BarElement,
@@ -27,7 +27,7 @@ ChartJS.register(
 );
 
 export default function TauxLogementsChart({ data }) {
-    if (!data || data.length === 0) return <p>Aucune donnée disponible.</p>;
+    if (!data || data.length === 0) return <p>Aucune donnée disponible.</p>; //gestion du cas où les données ne sont pas encore chargées ou sont vides
 
     const sampleData = data.slice(0, 300); //limite les éléments, avec la valeur après la virgule
     const firstItem = sampleData[0]; //définition de l'ID à 0 pour l'affichage, EXTRACTION DU PREMIER ELEMENT
@@ -36,31 +36,31 @@ export default function TauxLogementsChart({ data }) {
 
     // limite à un département pour avoir une courbe pour chaque année lisible
     const series = departement
-        ? sampleData.filter((item) => item?.critere?.nomDepartement === departement)
+        ? sampleData.filter((item) => item?.critere?.nomDepartement === departement) //filtre pour n'avoir que les éléments du département sélectionné dans le filtre
         : sampleData;
 
-    // tri chronologique
+    // tri chronologique des années
     series.sort((a, b) => {
         const ay = Number(a?.critere?.anneePublication ?? 0);
         const by = Number(b?.critere?.anneePublication ?? 0);
-        return ay - by;
+        return ay - by; // ay - by pour ordre croissant, by - ay pour ordre décroissant
     });
 
     const labels = series.map((item) => String(item?.critere?.anneePublication ?? "")); // CHOIX DE LA DONNEE A AFFICHER
     //changement pour tout afficher
 
-    // 1er Graphique : Pie
+    // 1er Graphique : Pie ()
     const pieData = {
-        labels: ["Logements Sociaux (%)", "Logements Vacants (%)", "Logements Individuels (%)"],
+        labels: ["Logements Sociaux (%)", "Logements Vacants (%)", "Logements Individuels (%)"], //choix des labels pour le graphique, avec les textes à afficher dans la légende et les cotes du graphique
         datasets: [
             {
                 label: `Taux pour ${firstItem.critere?.nomDepartement || 'département'}`,
                 data: [
-                    firstItem.pourcTauxLogementsSociaux,
+                    firstItem.pourcTauxLogementsSociaux, // données à afficher sur le graph
                     firstItem.pourcTauxLogementsVacants,
                     firstItem.pourcTauxLogementsIndividuels,
                 ],
-                backgroundColor: [
+                backgroundColor: [ // couleur pour chaque partie, dans l'ordre des labels
                     '#4B7A71',
                     '#7DA9A1',
                     '#A4CEC6',
@@ -82,8 +82,8 @@ export default function TauxLogementsChart({ data }) {
         datasets: [
             {
                 label: "Taux de logements vacants (%)",
-                data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)),
-                fill: false,
+                data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)), //premiere ligne correspond au taux de logements vacants, avec la valeur après la virgule, ??0 pour éviter les valeurs nulles ou indéfinies
+                fill: false, //sert à ne pas remplir la zone sous la courbe, pour une meilleure lisibilité
                 borderColor: '#A4CEC6',
                 backgroundColor: '#A4CEC6',
                 tension: 0.1,
@@ -91,22 +91,23 @@ export default function TauxLogementsChart({ data }) {
             },
             {
                 label: "Nombre total de logements",
-                data: series.map((item) => Number(item?.nombreLogements ?? 0)),
+                data: series.map((item) => Number(item?.nombreLogements ?? 0)), //deuxieme ligne correspond au nombre total de logements, avec la valeur après la virgule, ??0 pour éviter les valeurs nulles ou indéfinies
                 fill: false,
                 borderColor: '#4B7A71',
                 backgroundColor: '#4B7A71',
-                tension: 0.1,
-                yAxisID: 'y1'
+                tension: 0.1, // tension pour lisser la courbe, 0 pour une courbe droite entre les points, plus la valeur est élevée plus la courbe est lisse
+                yAxisID: 'y1' //permet d'associer cette courbe à l'axe y1, pour avoir des échelles différentes pour les deux courbes, et éviter que la courbe du nombre total de logements écrase celle du taux de logements vacants si les valeurs sont très différentes
             }
         ]
     };
 
+    // partie 
     const lineOptions = {
         responsive: true,
         plugins: {
             tooltip: {
                 callbacks: {
-                    label: function(context) {
+                    label: function (context) {
                         let label = context.dataset.label || '';
                         if (label) {
                             label += ': ';
@@ -122,9 +123,9 @@ export default function TauxLogementsChart({ data }) {
             }
         },
         scales: {
-            y: { 
-                type: 'linear', 
-                display: true, 
+            y: {
+                type: 'linear',
+                display: true,
                 position: 'left',
                 title: {
                     display: true,
@@ -135,10 +136,10 @@ export default function TauxLogementsChart({ data }) {
                     callback: (value) => value + ' %'
                 }
             },
-            y1: { 
-                type: 'linear', 
-                display: true, 
-                position: 'right', 
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
                 grid: { drawOnChartArea: false },
                 title: {
                     display: true,
@@ -183,8 +184,8 @@ export default function TauxLogementsChart({ data }) {
             {/* Graphique Pie */}
             <div style={{ width: "500px", margin: "0 auto" }}>
                 <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement}) en {firstItem.critere?.anneePublication}</h3>
-                <Pie 
-                    data={pieData} 
+                <Pie
+                    data={pieData}
                     options={{
                         plugins: {
                             tooltip: {
@@ -206,7 +207,7 @@ export default function TauxLogementsChart({ data }) {
             {/* Graphique Doughnut */}
             <div style={{ width: "500px", margin: "0 auto" }}>
                 <h3 style={{ textAlign: "center" }}>3. Part du Parc Social <br />({firstItem.critere?.nomDepartement} en {firstItem.critere?.anneePublication})</h3>
-                <Doughnut 
+                <Doughnut
                     data={doughnutData}
                     options={{
                         plugins: {
