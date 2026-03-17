@@ -30,7 +30,7 @@ export default function TauxLogementsChart({ data }) {
     if (!data || data.length === 0) return <p>Aucune donnée disponible.</p>;
 
     const sampleData = data.slice(0, 300); //limite les éléments, avec la valeur après la virgule
-    const firstItem = sampleData[100]; // choix de l'id pour l'affichage
+    const firstItem = sampleData[0]; // choix de l'id
     const departement = firstItem?.critere?.nomDepartement ?? null;
 
     // On se limite à un département pour avoir une courbe "par année" lisible
@@ -45,8 +45,8 @@ export default function TauxLogementsChart({ data }) {
         return ay - by;
     });
 
+    const labels = series.map((item) => String(item?.critere?.anneePublication ?? "")); // CHOIX DE LA DONNEE A AFFICHER
     //changement pour tout afficher
-    const labels = series.map((item) => String(item?.critere?.anneePublication ?? ""));
 
     // 1er Graphique : Pie
     const pieData = {
