@@ -2,91 +2,84 @@ import { useEffect, useState } from "react";
 import LogementChart from "../chart/LogementChart";
 
 export default function LogementsPage() {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
-
+    const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-    const [years, setYears] = useState([]);
+
     const [selectedYear, setSelectedYear] = useState("");
-    const [names, setNames] = useState([]);
     const [selectedName, setSelectedName] = useState("");
 
-    useEffect(() => {
-        fetch("/api/logements")
-            .then((res) => {
-                if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
-                return res.json();
-            })
-            .then((json) => {
-                setData(json);
+    const [years, setYears] = useState([]);
+    const [names, setNames] = useState([]);
 
-                // 🔹 Années (tri numérique descendant, stockées en string)
-                const uniqueYears = [...new Set(json.map(item => item.anneePublication))]
-                    .filter(Boolean)
-                    .map(Number)
-                    .sort((a, b) => b - a)
-                    .map(y => y.toString());
+    // 🔹 FETCH DATA
+    useEffect(() => {
+        fetch("http://localhost:8000/api/logements")
+            .then(res => res.json())
+            .then(json => {
+                console.log("DATA:", json);
+
+                setData(json);
+                setFilteredData(json);
+
+                // 🔹 récupérer années
+                const uniqueYears = [...new Set(
+                    json.map(item => item.critere?.anneePublication)
+                )].filter(Boolean);
+
                 setYears(uniqueYears);
 
-                // 🔹 Départements
-                const uniqueNames = [...new Set(json.map(item => item.nomDepartement))]
-                    .filter(Boolean)
-                    .sort();
-                setNames(uniqueNames);
+                // 🔹 récupérer départements
+                const uniqueNames = [...new Set(
+                    json.map(item => item.critere?.nomDepartement)
+                )].filter(Boolean);
 
-                // Laisser la sélection par défaut vide pour afficher toutes les années/départements
+                setNames(uniqueNames);
             })
-            .catch((err) => setError(err.message));
+            .catch(err => console.error(err));
     }, []);
 
-    // 🔥 FILTRAGE
+    // 🔥 FILTRE
     useEffect(() => {
-        if (!data) return;
-
         let filtered = data;
 
         if (selectedYear) {
             filtered = filtered.filter(
-                item => item.anneePublication?.toString() === selectedYear
+                item => item.critere?.anneePublication === selectedYear
             );
         }
 
         if (selectedName) {
             filtered = filtered.filter(
-                item => item.nomDepartement === selectedName
+                item => item.critere?.nomDepartement === selectedName
             );
         }
 
+        console.log("FILTERED:", filtered);
+
         setFilteredData(filtered);
     }, [selectedYear, selectedName, data]);
-
-    if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
-    if (!data) return <p>Chargement...</p>;
 
     return (
         <div style={{ maxWidth: "900px", margin: "2rem auto" }}>
             <h2>Logements</h2>
 
-            {/* FILTRES */}
-            <div style={{ display: "flex", gap: "2rem", marginBottom: "2rem" }}>
-
-                {/* Année */}
-                <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+            {/* 🔹 FILTRES */}
+            <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
+                
+                <select onChange={(e) => setSelectedYear(e.target.value)}>
                     <option value="">Toutes les années</option>
                     {years.map(y => (
-                        <option key={y} value={y}>{y}</option>
+                        <option key={y}>{y}</option>
                     ))}
                 </select>
 
-                {/* Département */}
-                <select value={selectedName} onChange={(e) => setSelectedName(e.target.value)}>
+                <select onChange={(e) => setSelectedName(e.target.value)}>
                     <option value="">Tous les départements</option>
                     {names.map(n => (
-                        <option key={n} value={n}>{n}</option>
+                        <option key={n}>{n}</option>
                     ))}
                 </select>
 
-                {/* Reset */}
                 <button onClick={() => {
                     setSelectedYear("");
                     setSelectedName("");
@@ -95,6 +88,7 @@ export default function LogementsPage() {
                 </button>
             </div>
 
+            {/* 🔹 GRAPH */}
             <LogementChart data={filteredData} />
         </div>
     );
