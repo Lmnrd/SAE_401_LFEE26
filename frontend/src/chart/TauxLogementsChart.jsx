@@ -142,13 +142,13 @@ export default function TauxLogementsChart({ data }) {
 
             {/* Graphique Line */}
             <div style={{ width: "100%", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements (Année {firstItem.critere?.anneePublication}, Lieu : {firstItem.critere?.nomDepartement})</h3>
+                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements<br />(Année {firstItem.critere?.anneePublication}, Lieu : {firstItem.critere?.nomDepartement})</h3>
                 <Line data={lineData} options={lineOptions} />
             </div>
 
             {/* Graphique Doughnut */}
             <div style={{ width: "400px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>3. Proportion de Logements Sociaux ({firstItem.critere?.nomDepartement})</h3>
+                <h3 style={{ textAlign: "center" }}>3. Proportion de Logements Sociaux <br />({firstItem.critere?.nomDepartement} en {firstItem.critere?.anneePublication})</h3>
                 <Doughnut data={doughnutData} />
             </div>
         </div>
