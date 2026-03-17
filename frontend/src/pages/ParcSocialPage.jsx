@@ -16,11 +16,11 @@ export default function ParcSocialPage() {
       })
       .then((json) => {
         setData(json);
-        
+
         // Extraction des années uniques depuis les critères
         const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))].filter(Boolean).sort();
         setYears(uniqueYears);
-        
+
         // Sélection de l'année la plus récente par défaut
         if (uniqueYears.length > 0) {
           setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());

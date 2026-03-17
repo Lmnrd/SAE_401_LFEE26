@@ -1,9 +1,16 @@
+// CONNEXION AU DONNEES POUR LES CHARTS TAUX DE LOGEMENTS
+
 import { useEffect, useState } from "react";
 import TauxLogementsChart from "../chart/TauxLogementsChart";
 
 export default function TauxLogementsPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
+    const [filteredData, setFilteredData] = useState([]);
+    const [years, setYears] = useState([]);
+    const [selectedYear, setSelectedYear] = useState("");
+    const [names, setNames] = useState([]);
+    const [selectedName, setSelectedName] = useState("");
 
     useEffect(() => {
         fetch("http://localhost:8000/api/taux-logement")
@@ -11,17 +18,102 @@ export default function TauxLogementsPage() {
                 if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
                 return res.json();
             })
-            .then((json) => setData(json))
+            .then((json) => {
+                setData(json);
+
+                // Extraction des années uniques
+                const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))]
+                    .filter(Boolean)
+                    .sort();
+                setYears(uniqueYears);
+
+                // Extraction des départements uniques
+                const uniqueNames = [...new Set(json.map(item => item.critere?.nomDepartement))]
+                    .filter(Boolean)
+                    .sort();
+                setNames(uniqueNames);
+
+                // Valeur par défaut pour l'année (la plus récente)
+                if (uniqueYears.length > 0) {
+                    setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
+                } else {
+                    setFilteredData(json);
+                }
+            })
             .catch((err) => setError(err.message));
     }, []);
+
+
+    // GESTION DES FILTRES (Année & Département)
+    useEffect(() => {
+        if (!data) return;
+
+        let filtered = data;
+
+        if (selectedYear) {
+            filtered = filtered.filter(
+                item => item.critere?.anneePublication?.toString() === selectedYear
+            );
+        }
+
+        if (selectedName) {
+            filtered = filtered.filter(
+                item => item.critere?.nomDepartement === selectedName
+            );
+        }
+
+        setFilteredData(filtered);
+    }, [selectedYear, selectedName, data]);
 
     if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
     if (!data) return <p>Chargement des données...</p>;
 
+    //FILTRE
     return (
-        <div style={{ maxWidth: "800px", margin: "2rem auto" }}>
+        <div style={{ maxWidth: "900px", margin: "2rem auto", padding: "0 1rem" }}>
             <h2>Taux Logements</h2>
-            <TauxLogementsChart data={data} />
+
+            <div style={{ display: 'flex', gap: '2rem', marginBottom: "2rem", flexWrap: 'wrap' }}>
+                <div>
+                    <label htmlFor="year-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
+                        Année :
+                    </label>
+                    <select
+                        id="year-select"
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(e.target.value)}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
+                    >
+                        <option value="">Toutes les années</option>
+                        {years.map(y => (
+                            <option key={y} value={y.toString()}>
+                                {y}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="name-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
+                        Département :
+                    </label>
+                    <select
+                        id="name-select"
+                        value={selectedName}
+                        onChange={(e) => setSelectedName(e.target.value)}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
+                    >
+                        <option value="">Tous les départements</option>
+                        {names.map(name => (
+                            <option key={name} value={name}>
+                                {name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            <TauxLogementsChart data={filteredData} />
         </div>
     );
 }
