@@ -61,14 +61,14 @@ export default function TauxLogementsChart({ data }) {
                     firstItem.pourcTauxLogementsIndividuels,
                 ],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
+                    '#4B7A71',
+                    '#7DA9A1',
+                    '#A4CEC6',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
+                    '#A4CEC6',
+                    '#7DA9A1',
+                    '#4B7A71',
                 ],
                 borderWidth: 1,
             },
@@ -84,7 +84,7 @@ export default function TauxLogementsChart({ data }) {
                 label: "Taux de logements vacants (%)",
                 data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)),
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor: '##A4CEC6',
                 tension: 0.1,
                 yAxisID: 'y'
             },
@@ -92,7 +92,7 @@ export default function TauxLogementsChart({ data }) {
                 label: "Nombre de logements",
                 data: series.map((item) => Number(item?.nombreLogements ?? 0)),
                 fill: false,
-                borderColor: 'rgb(255, 99, 132)',
+                borderColor: '#4B7A71',
                 tension: 0.1,
                 yAxisID: 'y1'
             }
@@ -118,8 +118,8 @@ export default function TauxLogementsChart({ data }) {
                 100 - firstItem.pourcTauxLogementsSociaux
             ],
             backgroundColor: [
-                'rgb(54, 162, 235)',
-                'rgb(220, 220, 220)'
+                '#7DA9A1',
+                '#A4CEC6'
             ],
             hoverOffset: 4
         }]

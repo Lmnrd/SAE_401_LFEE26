@@ -30,7 +30,7 @@ class TauxPopulation
     #[Groups(['taux_population'])]
     private ?float $densitePopulationAuKmCarre = null;
 
-    // === RELATION : TauxPopulation -> Critere (ManyToOne) ===
+    // RELATION : TauxPopulation -> Critere (ManyToOne)
     #[ORM\ManyToOne(targetEntity: Critere::class, inversedBy: 'tauxPopulations')]
     #[ORM\JoinColumn(name: 'critere_id', referencedColumnName: 'id')]
     #[Groups(['taux_population'])]
@@ -51,7 +51,7 @@ class TauxPopulation
     public function getDensitePopulationAuKmCarre(): ?float { return $this->densitePopulationAuKmCarre; }
     public function setDensitePopulationAuKmCarre(?float $densitePopulationAuKmCarre): static { $this->densitePopulationAuKmCarre = $densitePopulationAuKmCarre; return $this; }
 
-    // Getter/Setter pour la relation
+    // getter/Setter pour la relation
     public function getCritere(): ?Critere { return $this->critere; }
     public function setCritere(?Critere $critere): static { $this->critere = $critere; return $this; }
 }

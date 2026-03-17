@@ -76,7 +76,6 @@ class Region
     public function removeDepartement(Departement $departement): static
     {
         if ($this->departements->removeElement($departement)) {
-            // set the owning side to null (unless already changed)
             if ($departement->getCodeRegion() === $this) {
                 $departement->setCodeRegion(null);
             }
