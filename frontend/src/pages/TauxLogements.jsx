@@ -1,3 +1,5 @@
+// CONNEXION AU DONNEES POUR LES CHARTS TAUX DE LOGEMENTS
+
 import { useEffect, useState } from "react";
 import TauxLogementsChart from "../chart/TauxLogementsChart";
 
@@ -20,7 +22,6 @@ export default function TauxLogementsPage() {
 
     return (
         <div style={{ maxWidth: "800px", margin: "2rem auto" }}>
-            <h2>Taux Logements</h2>
             <TauxLogementsChart data={data} />
         </div>
     );

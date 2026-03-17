@@ -11,6 +11,8 @@ import {
     Legend,
 } from "chart.js";
 import { Pie, Line, Doughnut } from "react-chartjs-2";
+import "../css_pages/tauxLogements.css";
+
 
 ChartJS.register(
     CategoryScale,
@@ -27,13 +29,26 @@ ChartJS.register(
 export default function TauxLogementsChart({ data }) {
     if (!data || data.length === 0) return <p>Aucune donnée disponible.</p>;
 
-    const sampleData = data.slice(0, 25); //limite les éléments, avec la valeur après la virgule
-    const labels = sampleData.map((item) => item.critere?.nomDepartement || `ID ${item.id}`);
-    //utilisation la relation critere pour afficher le nom du département grâce à la clé étrangere et le oneToMany ou Many
+    const sampleData = data.slice(0, 300); //limite les éléments, avec la valeur après la virgule
+    const firstItem = sampleData[100]; // choix de l'id pour l'affichage
+    const departement = firstItem?.critere?.nomDepartement ?? null;
 
+    // On se limite à un département pour avoir une courbe "par année" lisible
+    const series = departement
+        ? sampleData.filter((item) => item?.critere?.nomDepartement === departement)
+        : sampleData;
+
+    // Tri chronologique
+    series.sort((a, b) => {
+        const ay = Number(a?.critere?.anneePublication ?? 0);
+        const by = Number(b?.critere?.anneePublication ?? 0);
+        return ay - by;
+    });
+
+    //changement pour tout afficher
+    const labels = series.map((item) => String(item?.critere?.anneePublication ?? ""));
 
     // 1er Graphique : Pie
-    const firstItem = sampleData[0];
     const pieData = {
         labels: ["Logements Sociaux (%)", "Logements Vacants (%)", "Logements Individuels (%)"],
         datasets: [
@@ -66,7 +81,7 @@ export default function TauxLogementsChart({ data }) {
         datasets: [
             {
                 label: "Taux de logements vacants (%)",
-                data: sampleData.map((item) => item.pourcTauxLogementsVacants),
+                data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)),
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1,
@@ -74,7 +89,7 @@ export default function TauxLogementsChart({ data }) {
             },
             {
                 label: "Nombre de logements",
-                data: sampleData.map((item) => item.nombreLogements),
+                data: series.map((item) => Number(item?.nombreLogements ?? 0)),
                 fill: false,
                 borderColor: 'rgb(255, 99, 132)',
                 tension: 0.1,
@@ -110,16 +125,24 @@ export default function TauxLogementsChart({ data }) {
     };
 
     return (
+
+
         <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
+
+            <section> TEXTE
+
+
+            </section>
+
             {/* Graphique Pie */}
             <div style={{ width: "400px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement})</h3>
+                <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement}) en {firstItem.critere?.anneePublication}</h3>
                 <Pie data={pieData} />
             </div>
 
             {/* Graphique Line */}
             <div style={{ width: "100%", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements</h3>
+                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements (Année {firstItem.critere?.anneePublication}, Lieu : {firstItem.critere?.nomDepartement})</h3>
                 <Line data={lineData} options={lineOptions} />
             </div>
 
