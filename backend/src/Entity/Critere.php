@@ -17,19 +17,19 @@ class Critere
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere', 'parc_social', 'taux_logement'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement','logements'])]
     private ?string $anneePublication = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere', 'parc_social', 'taux_logement'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement','logements'])]
     private ?string $nomDepartement = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere', 'parc_social', 'taux_logement'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement','logements'])]
     private ?string $nomRegion = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['critere'])]
+    #[Groups(['critere', 'parc_social', 'taux_logement','logements'])]
     private ?string $nombreHabitants = null;
 
     // un seul critère est relié à plusieurs données comme les logements et les taux

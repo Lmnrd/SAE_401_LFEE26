@@ -30,7 +30,7 @@ class ParcSocial
     #[Groups(['parc_social'])]
     private ?int $ventesPersonnesPhysiques = null;
 
-    // === RELATION : ParcSocial -> Critere (ManyToOne) ===
+    // RELATION : ParcSocial -> Critere (ManyToOne)
     #[ORM\ManyToOne(targetEntity: Critere::class, inversedBy: 'parcSociaux')]
     #[ORM\JoinColumn(name: 'critere_id', referencedColumnName: 'id')]
     #[Groups(['parc_social'])]
@@ -51,7 +51,7 @@ class ParcSocial
     public function getVentesPersonnesPhysiques(): ?int { return $this->ventesPersonnesPhysiques; }
     public function setVentesPersonnesPhysiques(?int $ventesPersonnesPhysiques): static { $this->ventesPersonnesPhysiques = $ventesPersonnesPhysiques; return $this; }
 
-    // Getter/Setter pour la relation
+    // getter/Setter pour la relation
     public function getCritere(): ?Critere { return $this->critere; }
     public function setCritere(?Critere $critere): static { $this->critere = $critere; return $this; }
 }

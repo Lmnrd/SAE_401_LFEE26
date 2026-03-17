@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ParcSocialPage from "./ParcSocialPage";
 import TauxLogementsPage from "./TauxLogements";
+import LogementsPage from "./Logement";
 
 function Navbar() {
     const [data, setData] = useState(null);
@@ -31,6 +32,15 @@ function Navbar() {
         );
     }
 
+    if (page === "logements") {
+        return (
+            <div style={{ padding: '20px' }}>
+                <button onClick={() => setPage("main")}>← Retour</button>
+                <LogementsPage />
+            </div>
+        );
+    }
+
     return (
         <div style={{ padding: '20px' }}>
 
@@ -40,6 +50,10 @@ function Navbar() {
 
             <button onClick={() => setPage("taux-logements")}>
                 Page Taux Logements
+            </button>
+
+            <button onClick={() => setPage("logements")}>
+                Page Logements
             </button>
         </div >
     );

@@ -95,7 +95,6 @@ class Departement
     public function removeStatistiqueLogement(StatistiqueLogement $statistiqueLogement): static
     {
         if ($this->statistiqueLogements->removeElement($statistiqueLogement)) {
-            // set the owning side to null (unless already changed)
             if ($statistiqueLogement->getDepartement() === $this) {
                 $statistiqueLogement->setDepartement(null);
             }

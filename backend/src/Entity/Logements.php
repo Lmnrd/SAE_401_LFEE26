@@ -34,7 +34,7 @@ class Logements
     #[Groups(['logements'])]
     private ?int $nombreResidenceSecondaire = null;
 
-    // === RELATION : Logements -> Critere (ManyToOne) ===
+    // RELATION : Logements -> Critere (ManyToOne)
     #[ORM\ManyToOne(targetEntity: Critere::class, inversedBy: 'logements')]
     #[ORM\JoinColumn(name: 'critere_id', referencedColumnName: 'id')]
     #[Groups(['logements'])]
@@ -58,7 +58,7 @@ class Logements
     public function getNombreResidenceSecondaire(): ?int { return $this->nombreResidenceSecondaire; }
     public function setNombreResidenceSecondaire(?int $nombreResidenceSecondaire): static { $this->nombreResidenceSecondaire = $nombreResidenceSecondaire; return $this; }
 
-    // Getter/Setter pour la relation
+    // getter/Setter pour la relation
     public function getCritere(): ?Critere { return $this->critere; }
     public function setCritere(?Critere $critere): static { $this->critere = $critere; return $this; }
 }
