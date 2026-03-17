@@ -39,36 +39,14 @@ export default function TauxLogementsChart({ data }) {
         ? sampleData.filter((item) => item?.critere?.nomDepartement === departement)
         : sampleData;
 
-    // Tri chronologique des données pour que le graphique "Line" soit cohérent
+    // tri chronologique
     series.sort((a, b) => {
         const ay = Number(a?.critere?.anneePublication ?? 0);
         const by = Number(b?.critere?.anneePublication ?? 0);
         return ay - by;
     });
 
-    // --- CALCUL DES MOYENNES (si "Toutes les années" est sélectionné) ---
-
-    // On vérifie s'il y a plusieurs années dans les données filtrées
-    const isMultipleYears = series.length > 1;
-
-    // Si on a plusieurs années, on additionne les valeurs de chaque catégorie
-    const totals = series.reduce((acc, item) => {
-        acc.sociaux += Number(item.pourcTauxLogementsSociaux ?? 0);
-        acc.vacants += Number(item.pourcTauxLogementsVacants ?? 0);
-        acc.individuels += Number(item.pourcTauxLogementsIndividuels ?? 0);
-        return acc;
-    }, { sociaux: 0, vacants: 0, individuels: 0 });
-
-    // On calcule la moyenne (Somme / Nombre d'années) ou on garde la valeur unique
-    const avgSociaux = isMultipleYears ? (totals.sociaux / series.length) : firstItem.pourcTauxLogementsSociaux;
-    const avgVacants = isMultipleYears ? (totals.vacants / series.length) : firstItem.pourcTauxLogementsVacants;
-    const avgIndividuels = isMultipleYears ? (totals.individuels / series.length) : firstItem.pourcTauxLogementsIndividuels;
-
-    // Libellé dynamique pour les titres des graphiques
-    const displayYear = isMultipleYears ? "Moyenne (Toutes les années)" : firstItem.critere?.anneePublication;
-    // --------------------------------------------------------------------
-
-    const labels = series.map((item) => String(item?.critere?.anneePublication ?? ""));
+    const labels = series.map((item) => String(item?.critere?.anneePublication ?? "")); // CHOIX DE LA DONNEE A AFFICHER
     //changement pour tout afficher
 
     // 1er Graphique : Pie
@@ -78,9 +56,9 @@ export default function TauxLogementsChart({ data }) {
             {
                 label: `Taux pour ${firstItem.critere?.nomDepartement || 'département'}`,
                 data: [
-                    avgSociaux,
-                    avgVacants,
-                    avgIndividuels,
+                    firstItem.pourcTauxLogementsSociaux,
+                    firstItem.pourcTauxLogementsVacants,
+                    firstItem.pourcTauxLogementsIndividuels,
                 ],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -136,8 +114,8 @@ export default function TauxLogementsChart({ data }) {
         datasets: [{
             label: `Proportion pour ${firstItem.critere?.nomDepartement || 'département'}`,
             data: [
-                avgSociaux,
-                100 - avgSociaux
+                firstItem.pourcTauxLogementsSociaux,
+                100 - firstItem.pourcTauxLogementsSociaux
             ],
             backgroundColor: [
                 'rgb(54, 162, 235)',
@@ -159,19 +137,19 @@ export default function TauxLogementsChart({ data }) {
 
             {/* Graphique Pie */}
             <div style={{ width: "400px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement}) en {displayYear}</h3>
+                <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement}) en {firstItem.critere?.anneePublication}</h3>
                 <Pie data={pieData} />
             </div>
 
             {/* Graphique Line */}
             <div style={{ width: "100%", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements<br />(Période : {displayYear}, Lieu : {firstItem.critere?.nomDepartement})</h3>
+                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements<br />(Année {firstItem.critere?.anneePublication}, Lieu : {firstItem.critere?.nomDepartement})</h3>
                 <Line data={lineData} options={lineOptions} />
             </div>
 
             {/* Graphique Doughnut */}
             <div style={{ width: "400px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>3. Proportion de Logements Sociaux <br />({firstItem.critere?.nomDepartement} en {displayYear})</h3>
+                <h3 style={{ textAlign: "center" }}>3. Proportion de Logements Sociaux <br />({firstItem.critere?.nomDepartement} en {firstItem.critere?.anneePublication})</h3>
                 <Doughnut data={doughnutData} />
             </div>
         </div>
