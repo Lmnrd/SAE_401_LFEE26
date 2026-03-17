@@ -4,6 +4,7 @@ import {
     LinearScale,
     PointElement,
     LineElement,
+    BarElement,
     ArcElement,
     Title,
     Tooltip,
@@ -11,7 +12,7 @@ import {
     Filler
 } from "chart.js";
 
-import { Line } from "react-chartjs-2";
+import { Line, Pie, Bar } from "react-chartjs-2";
 import departments from "../data/departments.json";
 
 ChartJS.register(
@@ -19,6 +20,7 @@ ChartJS.register(
     LinearScale,
     PointElement,
     LineElement,
+    BarElement,
     ArcElement,
     Title,
     Tooltip,
@@ -31,30 +33,23 @@ export default function LogementChart({ data }) {
 
     const sampleData = data.slice(0, 25);
 
-   const getDepartementName = (id) => {
-    const dep = departments.features.find(
-        d => Number(d.properties.code) === Number(id)
-    );
 
-    return dep ? dep.properties.nom : `ID ${id}`;
-};
-   
+    const getDepartementName = (id) => {
+        const code = String(id).padStart(2, "0");
 
-    // ✅ Labels corrigés
+        const dep = departments.features.find(
+            d => d.properties.code === code
+        );
+
+        return dep ? dep.properties.nom : `ID ${id}`;
+    };
+
     const labels = sampleData.map(item => getDepartementName(item.id));
 
+    
     const areaData = {
         labels: labels,
         datasets: [
-            // {
-            //     label: "Nombre de logements",
-            //     data: sampleData.map(item => Number(item.nombreLogements) || 0),
-            //     fill: true,
-            //     backgroundColor: "rgba(75, 192, 192, 0.2)",
-            //     borderColor: "rgb(75, 192, 192)",
-            //     tension: 0.4,
-            //     yAxisID: "y",
-            // },
             {
                 label: "Résidences principales",
                 data: sampleData.map(item => Number(item.nombreResidencesPrincipales) || 0),
@@ -62,7 +57,6 @@ export default function LogementChart({ data }) {
                 backgroundColor: "rgba(255, 99, 132, 0.2)",
                 borderColor: "rgb(255, 99, 132)",
                 tension: 0.4,
-                yAxisID: "y1",
             },
             {
                 label: "Résidences secondaires",
@@ -71,7 +65,6 @@ export default function LogementChart({ data }) {
                 backgroundColor: "rgba(0, 128, 0, 0.2)",
                 borderColor: "rgb(0, 128, 0)",
                 tension: 0.4,
-                yAxisID: "y1",
             },
         ],
     };
@@ -79,31 +72,89 @@ export default function LogementChart({ data }) {
     const areaOptions = {
         responsive: true,
         plugins: {
-            legend: {
-                position: "top",
-            },
+            legend: { position: "top" },
         },
-        scales: {
-            y: {
-                type: "linear",
-                display: true,
-                position: "left",
+    };
+
+
+    const totalPrincipales = sampleData.reduce(
+        (sum, item) => sum + (Number(item.nombreResidencesPrincipales) || 0),
+        0
+    );
+
+    const totalSecondaires = sampleData.reduce(
+        (sum, item) => sum + (Number(item.nombreResidenceSecondaire) || 0),
+        0
+    );
+
+    const totalVacants = sampleData.reduce(
+        (sum, item) => sum + (Number(item.nombreLogementsVacants) || 0),
+        0
+    );
+
+    const pieData = {
+        labels: ["Principales", "Secondaires", "Vacants"],
+        datasets: [
+            {
+                data: [totalPrincipales, totalSecondaires, totalVacants],
+                backgroundColor: ["#ff6384", "#36a2eb", "#ffce56"],
             },
-            y1: {
-                type: "linear",
-                display: true,
-                position: "right",
-                grid: {
-                    drawOnChartArea: false,
+        ],
+    };
+
+    const pieOptions = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const value = context.raw;
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        return `${value} (${percentage}%)`;
+                    },
                 },
             },
         },
     };
 
+  
+    const topData = [...data]
+        .sort((a, b) => (b.nombreLogements || 0) - (a.nombreLogements || 0))
+        .slice(0, 10);
+
+    const barData = {
+        labels: topData.map(item => getDepartementName(item.id)),
+        datasets: [
+            {
+                label: "Top 10 - Nombre de logements",
+                data: topData.map(item => Number(item.nombreLogements) || 0),
+                backgroundColor: "rgba(54, 162, 235, 0.6)",
+            },
+        ],
+    };
+
+    const barOptions = {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+        },
+    };
+
+   
     return (
         <div style={{ width: "100%" }}>
             <h3 style={{ textAlign: "center" }}>Logements</h3>
             <Line data={areaData} options={areaOptions} />
+
+            <h3 style={{ textAlign: "center", marginTop: "2rem" }}>
+                Répartition des types de logements
+            </h3>
+            <Pie data={pieData} options={pieOptions} />
+
+            <h3 style={{ textAlign: "center", marginTop: "2rem" }}>
+                Top 10 départements (logements)
+            </h3>
+            <Bar data={barData} options={barOptions} />
         </div>
     );
 }
