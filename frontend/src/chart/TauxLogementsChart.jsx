@@ -30,15 +30,16 @@ export default function TauxLogementsChart({ data }) {
     if (!data || data.length === 0) return <p>Aucune donnée disponible.</p>;
 
     const sampleData = data.slice(0, 300); //limite les éléments, avec la valeur après la virgule
-    const firstItem = sampleData[0]; // choix de l'id
+    const firstItem = sampleData[0]; //définition de l'ID à 0 pour l'affichage, EXTRACTION DU PREMIER ELEMENT
     const departement = firstItem?.critere?.nomDepartement ?? null;
+    //vérification de si firstItem existe et pareil pour critere pour acceder a nomDepartement
 
-    // On se limite à un département pour avoir une courbe "par année" lisible
+    // limite à un département pour avoir une courbe pour chaque année lisible
     const series = departement
         ? sampleData.filter((item) => item?.critere?.nomDepartement === departement)
         : sampleData;
 
-    // Tri chronologique
+    // tri chronologique
     series.sort((a, b) => {
         const ay = Number(a?.critere?.anneePublication ?? 0);
         const by = Number(b?.critere?.anneePublication ?? 0);
