@@ -54,16 +54,16 @@ export default function LogementChart({ data }) {
                 label: "Résidences principales",
                 data: sampleData.map(item => Number(item.nombreResidencesPrincipales) || 0),
                 fill: true,
-                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#4B7A7180",
+                borderColor: "#4B7A71",
                 tension: 0.4,
             },
             {
                 label: "Résidences secondaires",
                 data: sampleData.map(item => Number(item.nombreResidenceSecondaire) || 0),
                 fill: true,
-                backgroundColor: "rgba(0, 128, 0, 0.2)",
-                borderColor: "rgb(0, 128, 0)",
+                backgroundColor: "#A4CEC680",
+                borderColor: "#A4CEC6",
                 tension: 0.4,
             },
         ],
@@ -97,7 +97,7 @@ export default function LogementChart({ data }) {
         datasets: [
             {
                 data: [totalPrincipales, totalSecondaires, totalVacants],
-                backgroundColor: ["#ff6384", "#36a2eb", "#ffce56"],
+                backgroundColor: ["#4B7A7180", "#6cb5a880", "#aee8dd80"],
             },
         ],
     };
@@ -128,7 +128,7 @@ export default function LogementChart({ data }) {
             {
                 label: "Top 10 - Nombre de logements",
                 data: topData.map(item => Number(item.nombreLogements) || 0),
-                backgroundColor: "rgba(54, 162, 235, 0.6)",
+                backgroundColor: "#4B7A7180",
             },
         ],
     };
