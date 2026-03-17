@@ -16,6 +16,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tool
 export default function ParcSocialChart({ data }) {
   if (!data || data.length === 0) return <p>Aucune donnée à afficher pour le graphique.</p>;
 
+  const firstItem = data[0];
+
   // --- LOGIQUE DE REGROUPEMENT PAR RÉGION ---
   const aggregatedData = data.reduce((acc, item) => {
     // Accès au nom de la région via la relation critere
@@ -120,7 +122,7 @@ export default function ParcSocialChart({ data }) {
       <div style={{ flex: "1 1 500px", minWidth: "300px" }}>
         <Bar data={chartData} options={options} />
       </div>
-      <div style={{ flex: "1 1 400px", minWidth: "300px" }}>
+      <div style={{ width: "400px", margin: "0 auto" }}>
         <Doughnut data={doughnutData} options={doughnutOptions} />
       </div>
     </div>
