@@ -84,15 +84,17 @@ export default function TauxLogementsChart({ data }) {
                 label: "Taux de logements vacants (%)",
                 data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)),
                 fill: false,
-                borderColor: '##A4CEC6',
+                borderColor: '#A4CEC6',
+                backgroundColor: '#A4CEC6',
                 tension: 0.1,
                 yAxisID: 'y'
             },
             {
-                label: "Nombre de logements",
+                label: "Nombre total de logements",
                 data: series.map((item) => Number(item?.nombreLogements ?? 0)),
                 fill: false,
                 borderColor: '#4B7A71',
+                backgroundColor: '#4B7A71',
                 tension: 0.1,
                 yAxisID: 'y1'
             }
@@ -101,21 +103,64 @@ export default function TauxLogementsChart({ data }) {
 
     const lineOptions = {
         responsive: true,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        if (context.datasetIndex === 0) {
+                            label += context.parsed.y.toFixed(2) + ' %';
+                        } else {
+                            label += context.parsed.y.toLocaleString();
+                        }
+                        return label;
+                    }
+                }
+            }
+        },
         scales: {
-            y: { type: 'linear', display: true, position: 'left' },
-            y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } },
+            y: { 
+                type: 'linear', 
+                display: true, 
+                position: 'left',
+                title: {
+                    display: true,
+                    text: 'Taux (%)',
+                    color: '#A4CEC6'
+                },
+                ticks: {
+                    callback: (value) => value + ' %'
+                }
+            },
+            y1: { 
+                type: 'linear', 
+                display: true, 
+                position: 'right', 
+                grid: { drawOnChartArea: false },
+                title: {
+                    display: true,
+                    text: 'Nombre de logements',
+                    color: '#4B7A71'
+                },
+                ticks: {
+                    callback: (value) => value.toLocaleString()
+                }
+            },
         },
     };
 
 
     // 3ème Graphique : Doughnut
     const doughnutData = {
-        labels: ["Logements Sociaux (%)", "Logements totaux (%)"],
+        labels: ["Logements Sociaux (%)", "Autres types de logements (%)"],
         datasets: [{
             label: `Proportion pour ${firstItem.critere?.nomDepartement || 'département'}`,
             data: [
                 firstItem.pourcTauxLogementsSociaux,
-                100 - firstItem.pourcTauxLogementsSociaux
+                (100 - firstItem.pourcTauxLogementsSociaux).toFixed(2)
             ],
             backgroundColor: [
                 '#7DA9A1',
@@ -136,21 +181,43 @@ export default function TauxLogementsChart({ data }) {
             </section>
 
             {/* Graphique Pie */}
-            <div style={{ width: "400px", margin: "0 auto" }}>
+            <div style={{ width: "500px", margin: "0 auto" }}>
                 <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement}) en {firstItem.critere?.anneePublication}</h3>
-                <Pie data={pieData} />
+                <Pie 
+                    data={pieData} 
+                    options={{
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => ` ${context.label}: ${context.parsed}%`
+                                }
+                            }
+                        }
+                    }}
+                />
             </div>
 
             {/* Graphique Line */}
             <div style={{ width: "100%", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>2. Taux de logements vacants & Nombre de logements<br />(Année {firstItem.critere?.anneePublication}, Lieu : {firstItem.critere?.nomDepartement})</h3>
+                <h3 style={{ textAlign: "center" }}>2. Évolution : Taux vacants vs Volume total<br />(Lieu : {firstItem.critere?.nomDepartement})</h3>
                 <Line data={lineData} options={lineOptions} />
             </div>
 
             {/* Graphique Doughnut */}
-            <div style={{ width: "400px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>3. Proportion de Logements Sociaux <br />({firstItem.critere?.nomDepartement} en {firstItem.critere?.anneePublication})</h3>
-                <Doughnut data={doughnutData} />
+            <div style={{ width: "500px", margin: "0 auto" }}>
+                <h3 style={{ textAlign: "center" }}>3. Part du Parc Social <br />({firstItem.critere?.nomDepartement} en {firstItem.critere?.anneePublication})</h3>
+                <Doughnut 
+                    data={doughnutData}
+                    options={{
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => ` ${context.label}: ${context.parsed}%`
+                                }
+                            }
+                        }
+                    }}
+                />
             </div>
         </div>
     );
