@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import ParcSocialChart from "../chart/ParcSocialChart";
+import { getParcSocial } from "../services/fetch.js"; 
 
 export default function ParcSocialPage() {
+<<<<<<< HEAD
   // États pour gérer les données, erreurs, données filtrées, années et année sélectionnée
   const [data, setData] = useState(null);
+=======
+  const [data, setData] = useState([]);
+>>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
 
   // Effet pour récupérer les données depuis l'API
   useEffect(() => {
+<<<<<<< HEAD
     fetch("http://localhost:8000/api/parc-social")
       .then((res) => {
         // Vérification du statut de la réponse HTTP
@@ -23,14 +30,32 @@ export default function ParcSocialPage() {
 
         // Extraction des années uniques depuis les critères des données
         const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))].filter(Boolean).sort();
+=======
+    getParcSocial() 
+      .then((json) => {
+        console.log("DATA:", json);
+
+        setData(json);
+        setFilteredData(json);
+
+        const uniqueYears = [...new Set(
+          json.map(item => item.anneePublication)
+        )]
+          .filter(Boolean)
+          .sort((a, b) => b - a);
+
+>>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
         setYears(uniqueYears);
 
-        // Sélection de l'année la plus récente par défaut
         if (uniqueYears.length > 0) {
+<<<<<<< HEAD
           setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
         } else {
           // Si aucune année, utiliser toutes les données
           setFilteredData(json);
+=======
+          setSelectedYear(uniqueYears[0].toString());
+>>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
         }
       })
       .catch((err) => setError(err.message));
@@ -40,14 +65,24 @@ export default function ParcSocialPage() {
   useEffect(() => {
     if (!data) return;
 
+    let filtered = data;
+
     if (selectedYear) {
+<<<<<<< HEAD
       // Filtrage des données pour l'année sélectionnée
       const filtered = data.filter(item => item.critere?.anneePublication?.toString() === selectedYear);
       setFilteredData(filtered);
     } else {
       // Si aucune année sélectionnée, utiliser toutes les données
       setFilteredData(data);
+=======
+      filtered = filtered.filter(
+        item => item.anneePublication?.toString() === selectedYear
+      );
+>>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
     }
+
+    setFilteredData(filtered);
   }, [selectedYear, data]);
 
   // Gestion des états d'erreur et de chargement
@@ -60,15 +95,22 @@ export default function ParcSocialPage() {
       <h2>Parc Social</h2>
 
       <div style={{ marginBottom: "2rem" }}>
-        <label htmlFor="year-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>Année :</label>
+        <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
+          Année :
+        </label>
+
         <select
-          id="year-select"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
-          style={{ padding: "0.5rem", borderRadius: "4px" }}
+          className="filter-control"
         >
-          <option value="">Toutes les années (Cumul global)</option>
-          {years.map(y => <option key={y} value={y.toString()}>{y}</option>)}
+          <option value="">Toutes les années</option>
+
+          {years.map(y => (
+            <option key={y} value={y}>
+              {y}
+            </option>
+          ))}
         </select>
       </div>
 

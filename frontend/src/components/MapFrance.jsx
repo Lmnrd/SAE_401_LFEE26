@@ -22,11 +22,11 @@ const projection = geoConicConformalFrance()
 export default function MapFrance() {
   // Département actuellement sélectionné (cliqué) sur la carte
   const [selectedDept, setSelectedDept] = useState(null);
-  
+
   // États qui contiendront les données récupérées dans la base via l'API Symfony
   const [critereData, setCritereData] = useState([]);      // Données de l'entité Critere (population, année, etc.)
   const [tauxPopData, setTauxPopData] = useState([]);      // Données de l'entité TauxPopulation (densité, % jeunes, etc.)
-  
+
   // États pour gérer l'affichage de chargement et d'erreur
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -86,7 +86,7 @@ export default function MapFrance() {
   if (selectedDept) {
     // Nom du département récupéré depuis le GeoJSON (ex: "Isère", "Paris"…)
     const geoNom = selectedDept.properties.nom;
-    
+
     // On cherche dans le tableau critereData l'entrée dont le nom de département
     // correspond au nom issu du GeoJSON. On met tout en minuscule pour éviter
     // les problèmes de casse (Paris vs PARIS).
@@ -106,7 +106,9 @@ export default function MapFrance() {
   }
 
   return (
+
     <div className="map-container">
+      <h2>Cartographie Nationale (Carte de France)</h2>
       {/* Partie gauche : affichage de la carte de France */}
       <div className="map-view">
         <ComposableMap
@@ -133,8 +135,8 @@ export default function MapFrance() {
                     // Styles de la carte selon l'état du département (normal, survolé, cliqué)
                     style={{
                       default: {
-                        // Couleur de base de chaque département
-                        fill: isSelected ? "#3498db" : "#bdc3c7",
+                        // Couleur de base de chaque département et quand on ferme le département
+                        fill: isSelected ? "#4B7A71" : "#A4CEC6",
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -142,7 +144,7 @@ export default function MapFrance() {
                       },
                       hover: {
                         // Couleur quand la souris est au-dessus
-                        fill: "#2980b9",
+                        fill: "#4B7A71",
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -151,7 +153,7 @@ export default function MapFrance() {
                       },
                       pressed: {
                         // Couleur quand on clique
-                        fill: "#1f618d",
+                        fill: "#7DA9A1",
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none"
@@ -166,7 +168,7 @@ export default function MapFrance() {
         {/* Composant d'info-bulle global, lié aux data-tooltip-* définis sur Geography */}
         <Tooltip id="france-tooltip" />
       </div>
-      
+
       {/* Partie droite : "popup" (overlay) qui affiche les infos du département sélectionné */}
       {selectedDept && (
         // Fond semi-transparent qui recouvre la page ; un clic dessus ferme la popup
@@ -177,11 +179,11 @@ export default function MapFrance() {
             <button className="close-btn" onClick={() => setSelectedDept(null)} aria-label="Fermer">
               &times;
             </button>
-            
+
             {/* Titre : nom et code du département (issus du GeoJSON) */}
             <h3>{selectedDept.properties.nom}</h3>
             <p>Code département : <strong>{selectedDept.properties.code}</strong></p>
-            
+
             {/* Affichage conditionnel en fonction de l'état du chargement et des données */}
             {isLoading ? (
               // Si les données sont en cours de chargement
@@ -211,7 +213,7 @@ export default function MapFrance() {
               // Cas où aucun enregistrement de la base ne correspond au département cliqué
               <p className="no-data">Aucune donnée trouvée en base pour ce département.</p>
             )}
-            
+
           </div>
         </div>
       )}

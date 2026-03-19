@@ -1,9 +1,11 @@
 .sidebar {
     width: 220px;
     height: 100vh;
-    background: #f4f4f4;
-    border-right: 1px solid #ccc;
+    background: #fff;
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
     padding: 1rem;
+
 }
 
 .sidebar-header {
@@ -27,7 +29,7 @@
     color: #666;
 }
 
-button {
+.sidebar button {
     display: block;
     width: 100%;
     border: none;
@@ -37,6 +39,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    color: #007bff;
+.sidebar button:hover {
+    color: #4B7A71;
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import LogementChart from "../chart/LogementChart";
+import { getLogements}  from "../services/fetch"; 
 
 export default function LogementsPage() {
     const [data, setData] = useState([]);
@@ -12,8 +13,7 @@ export default function LogementsPage() {
     const [names, setNames] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/logements")
-            .then(res => res.json())
+        getLogements()   
             .then(json => {
                 console.log("DATA:", json);
 
@@ -21,13 +21,13 @@ export default function LogementsPage() {
                 setFilteredData(json);
 
                 const uniqueYears = [...new Set(
-                    json.map(item => item.critere?.anneePublication)
+                    json.map(item => item.anneePublication)
                 )].filter(Boolean);
 
                 setYears(uniqueYears);
 
                 const uniqueNames = [...new Set(
-                    json.map(item => item.critere?.nomDepartement)
+                    json.map(item => item.nomDepartement)
                 )].filter(Boolean);
 
                 setNames(uniqueNames);
@@ -40,17 +40,15 @@ export default function LogementsPage() {
 
         if (selectedYear) {
             filtered = filtered.filter(
-                item => item.critere?.anneePublication === selectedYear
+                item => item.anneePublication?.toString() === selectedYear
             );
         }
 
         if (selectedName) {
             filtered = filtered.filter(
-                item => item.critere?.nomDepartement === selectedName
+                item => item.nomDepartement === selectedName
             );
         }
-
-        console.log("FILTERED:", filtered);
 
         setFilteredData(filtered);
     }, [selectedYear, selectedName, data]);
@@ -61,28 +59,34 @@ export default function LogementsPage() {
 
             <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
 
-                <select onChange={(e) => setSelectedYear(e.target.value)}>
+                <select className="filter-control" onChange={(e) => setSelectedYear(e.target.value)}>
                     <option value="">Toutes les années</option>
                     {years.map(y => (
-                        <option key={y}>{y}</option>
+                        <option key={y} value={y}>
+                            {y}
+                        </option>
                     ))}
                 </select>
 
-                <select onChange={(e) => setSelectedName(e.target.value)}>
+                <select className="filter-control"
+                    value={selectedName}
+                    onChange={(e) => setSelectedName(e.target.value)}
+                >
                     <option value="">Tous les départements</option>
                     {names.map(n => (
-                        <option key={n}>{n}</option>
+                        <option key={n} value={n}>
+                            {n}
+                        </option>
                     ))}
                 </select>
 
-                <button onClick={() => {
+                <button className="filter-button" onClick={() => {
                     setSelectedYear("");
                     setSelectedName("");
                 }}>
                     Reset
                 </button>
             </div>
-
             <LogementChart data={filteredData} />
         </div>
     );
