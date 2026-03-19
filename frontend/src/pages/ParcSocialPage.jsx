@@ -1,31 +1,33 @@
 import { useEffect, useState } from "react";
 import ParcSocialChart from "../chart/ParcSocialChart";
+import { getParcSocial } from "../services/fetch.js"; 
 
 export default function ParcSocialPage() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/parc-social")
-      .then((res) => {
-        if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
-        return res.json();
-      })
+    getParcSocial() 
       .then((json) => {
-        setData(json);
+        console.log("DATA:", json);
 
-        // Extraction des années uniques depuis les critères
-        const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))].filter(Boolean).sort();
+        setData(json);
+        setFilteredData(json);
+
+        const uniqueYears = [...new Set(
+          json.map(item => item.anneePublication)
+        )]
+          .filter(Boolean)
+          .sort((a, b) => b - a);
+
         setYears(uniqueYears);
 
-        // Sélection de l'année la plus récente par défaut
         if (uniqueYears.length > 0) {
-          setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
-        } else {
-          setFilteredData(json);
+          setSelectedYear(uniqueYears[0].toString());
         }
       })
       .catch((err) => setError(err.message));
@@ -34,12 +36,15 @@ export default function ParcSocialPage() {
   useEffect(() => {
     if (!data) return;
 
+    let filtered = data;
+
     if (selectedYear) {
-      const filtered = data.filter(item => item.critere?.anneePublication?.toString() === selectedYear);
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(data);
+      filtered = filtered.filter(
+        item => item.anneePublication?.toString() === selectedYear
+      );
     }
+
+    setFilteredData(filtered);
   }, [selectedYear, data]);
 
   if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
@@ -50,15 +55,22 @@ export default function ParcSocialPage() {
       <h2>Parc Social</h2>
 
       <div style={{ marginBottom: "2rem" }}>
-        <label htmlFor="year-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>Année :</label>
+        <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
+          Année :
+        </label>
+
         <select
-          id="year-select"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
           style={{ padding: "0.5rem", borderRadius: "4px" }}
         >
-          <option value="">Toutes les années (Cumul global)</option>
-          {years.map(y => <option key={y} value={y.toString()}>{y}</option>)}
+          <option value="">Toutes les années</option>
+
+          {years.map(y => (
+            <option key={y} value={y}>
+              {y}
+            </option>
+          ))}
         </select>
       </div>
 

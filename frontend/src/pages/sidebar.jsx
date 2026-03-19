@@ -1,4 +1,4 @@
-import "../css_pages/Sidebar.css";
+import "../css_pages/sidebar.css";
 
 export default function Sidebar({ setPage }) {
     return (
