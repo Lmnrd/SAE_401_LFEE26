@@ -58,8 +58,8 @@ export default function LogementsPage() {
             <h2>Logements</h2>
 
             <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-                
-                <select onChange={(e) => setSelectedYear(e.target.value)}>
+
+                <select className="filter-control" onChange={(e) => setSelectedYear(e.target.value)}>
                     <option value="">Toutes les années</option>
                     {years.map(y => (
                         <option key={y} value={y}>
@@ -67,7 +67,8 @@ export default function LogementsPage() {
                         </option>
                     ))}
                 </select>
-                <select 
+
+                <select className="filter-control"
                     value={selectedName}
                     onChange={(e) => setSelectedName(e.target.value)}
                 >
@@ -78,7 +79,8 @@ export default function LogementsPage() {
                         </option>
                     ))}
                 </select>
-                <button onClick={() => {
+
+                <button className="filter-button" onClick={() => {
                     setSelectedYear("");
                     setSelectedName("");
                 }}>

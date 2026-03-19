@@ -62,7 +62,7 @@ export default function ParcSocialPage() {
         <select
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
-          style={{ padding: "0.5rem", borderRadius: "4px" }}
+          className="filter-control"
         >
           <option value="">Toutes les années</option>
 
