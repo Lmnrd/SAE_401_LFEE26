@@ -1,3 +1,76 @@
-* {
-    background-color: rgb(255, 255, 255);
+/* Global page styling */
+.taux-page-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
+
+.taux-page-title {
+    color: #1e293b;
+    font-weight: 800;
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+    letter-spacing: -0.025em;
+}
+
+/* Simple Filter Bar */
+.taux-filters {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    background: white;
+    padding: 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 3rem;
+    border: 1px solid #e2e8f0;
+}
+
+.taux-filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.taux-filter-item label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.taux-select {
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: #fff;
+    min-width: 180px;
+    transition: all 0.2s ease;
+}
+
+.taux-select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+
+/* Simple Cards for Graphs */
+.taux-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.taux-card h3 {
+    margin-top: 0;
+    color: #334155;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: center;
+}

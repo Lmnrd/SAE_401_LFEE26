@@ -82,69 +82,59 @@ export default function TauxLogementsPage() {
     if (!data) return <p>Chargement des données...</p>;
 
     return (
-        <div style={{ maxWidth: "900px", margin: "2rem auto", padding: "0 1rem" }}>
-            <h2>Taux Logements</h2>
+        <div className="taux-page-wrapper">
+            <h1 className="taux-page-title">Tableau de bord - Taux Logements</h1>
 
-            <div style={{ display: 'flex', gap: '2rem', marginBottom: "2rem", flexWrap: 'wrap' }}>
-
-                <div>
-                    <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
-                        Année :
-                    </label>
+            <div className="taux-filters">
+                <div className="taux-filter-item">
+                    <label htmlFor="year-select">Année Publication</label>
                     <select
+                        id="year-select"
+                        className="taux-select"
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
                     >
                         <option value="">Toutes les années</option>
                         {years.map(y => (
-                            <option key={y} value={y}>
-                                {y}
-                            </option>
+                            <option key={y} value={y}>{y}</option>
                         ))}
                     </select>
                 </div>
 
-                <div>
-                    <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
-                        Département :
-                    </label>
+                <div className="taux-filter-item">
+                    <label htmlFor="dept-select">Département</label>
                     <select
+                        id="dept-select"
+                        className="taux-select"
                         value={selectedName}
                         onChange={(e) => setSelectedName(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
                     >
                         <option value="">Tous les départements</option>
                         {names.map(name => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
+                            <option key={name} value={name}>{name}</option>
                         ))}
                     </select>
                 </div>
 
-                <div>
-                    <label htmlFor="region-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
-                        Région :
-                    </label>
+                <div className="taux-filter-item">
+                    <label htmlFor="region-select">Région</label>
                     <select
                         id="region-select"
+                        className="taux-select"
                         value={selectedRegion}
                         onChange={(e) => setSelectedRegion(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
                     >
                         <option value="">Toutes les régions</option>
                         {regions.map(region => (
-                            <option key={region} value={region}>
-                                {region}
-                            </option>
+                            <option key={region} value={region}>{region}</option>
                         ))}
                     </select>
                 </div>
             </div>
 
-            {/*ici on appelle le graphique*/}
-            <TauxLogementsChart data={filteredData} />
+            <div className="taux-content">
+                <TauxLogementsChart data={filteredData} />
+            </div>
         </div>
     );
-}
+}

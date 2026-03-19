@@ -22,15 +22,15 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Sidebar setPage={setPage} />
 
-      <div style={{ flex: 1, padding: "20px" }}>
-        <h1>Tableau de bord du parc locatif social en France</h1>
+      <div style={{ flex: 1, padding: "0" }}>
         {renderPage()}
       </div>
     </div>
   );
 }
+
 
 export default App;

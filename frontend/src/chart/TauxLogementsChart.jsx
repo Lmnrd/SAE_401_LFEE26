@@ -49,35 +49,28 @@ export default function TauxLogementsChart({ data }) {
     });
 
     const labels = series.map((item) => String(item?.critere?.anneePublication ?? "")); // CHOIX DE LA DONNEE A AFFICHER
-    //changement pour tout afficher
-
-    // 1er Graphique : Pie ()
+    // 1er Graphique : Doughnut (plus moderne qu'un Pie plein)
     const pieData = {
         labels: ["Logements Sociaux (%)", "Logements Vacants (%)", "Logements Individuels (%)"],
-        //choix des labels pour le graphique, avec les textes à afficher dans la légende et les cotes du graphique
         datasets: [
             {
                 label: `Taux pour ${firstItem.critere?.nomDepartement || 'département'}`,
                 data: [
-                    firstItem.pourcTauxLogementsSociaux, // données à afficher sur le graph
+                    firstItem.pourcTauxLogementsSociaux,
                     firstItem.pourcTauxLogementsVacants,
                     firstItem.pourcTauxLogementsIndividuels,
                 ],
-                backgroundColor: [ // couleur pour chaque partie, dans l'ordre des labels
-                    '#4B7A71',
-                    '#7DA9A1',
-                    '#A4CEC6',
+                backgroundColor: [
+                    '#6366F1', // Indigo (Sociaux)
+                    '#F59E0B', // Amber (Vacants)
+                    '#94A3B8', // Slate (Individuels)
                 ],
-                borderColor: [
-                    '#A4CEC6',
-                    '#7DA9A1',
-                    '#4B7A71',
-                ],
-                borderWidth: 1,
+                borderColor: '#ffffff',
+                borderWidth: 2,
+                hoverOffset: 12,
             },
         ],
     };
-
 
     // 2ème Graphique : Line
     const lineData = {
@@ -86,46 +79,42 @@ export default function TauxLogementsChart({ data }) {
             {
                 label: "Taux de logements vacants (%)",
                 data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)),
-                //premiere ligne correspond au taux de logements vacants, avec la valeur après la virgule, ??0 pour éviter les valeurs nulles ou indéfinies
-                fill: false, //sert à ne pas remplir la zone sous la courbe, pour une meilleure lisibilité
-                borderColor: '#A4CEC6',
-                backgroundColor: '#A4CEC6',
-                tension: 0.1,
+                fill: true,
+                backgroundColor: 'rgba(245, 158, 11, 0.1)', // Soft amber background
+                borderColor: '#F59E0B',
+                pointBackgroundColor: '#F59E0B',
+                tension: 0.4,
                 yAxisID: 'y'
             },
             {
                 label: "Nombre total de logements",
                 data: series.map((item) => Number(item?.nombreLogements ?? 0)),
-                //deuxieme ligne correspond au nombre total de logements, avec la valeur après la virgule, ??0 pour éviter les valeurs nulles ou indéfinies
                 fill: false,
-                borderColor: '#4B7A71',
-                backgroundColor: '#4B7A71',
-                tension: 0.1, // tension pour lisser la courbe, 0 pour une courbe droite entre les points, plus la valeur est élevée plus la courbe est lisse
+                borderColor: '#6366F1',
+                backgroundColor: '#6366F1',
+                pointBackgroundColor: '#6366F1',
+                tension: 0.4,
                 yAxisID: 'y1'
-                //permet d'associer cette courbe à l'axe y1, pour avoir des échelles différentes pour les deux courbes, et éviter que la courbe du nombre total 
-                //de logements écrase celle du taux de logements vacants si les valeurs sont très différentes
-                //ici, on affiche à droite le nombre de logements alors qu'à gauche s'affiche les pourcentages de logements VACANTS
             }
         ]
     };
 
-    // paramètres avancés pour le graphique en courbes 
+    // paramètres avancés pour le graphique en courbes
     const lineOptions = {
-        responsive: true, // Permet au graphique de s'ajuster automatiquement à la taille de l'écran
-        plugins: { // ajout des fonctionnalités
-            tooltip: { // configuration de la bulle d'information qui apparaît au survol des deux lignes
+        responsive: true,
+        plugins: {
+            legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } },
+            tooltip: {
+                backgroundColor: '#1e293b',
+                padding: 12,
+                cornerRadius: 8,
                 callbacks: {
                     label: function (context) {
-                        let label = context.dataset.label || ''; //récupère le nom de la courbe
-                        if (label) {
-                            label += ': '; // ajoute un séparateur pour un meilleur affichage
-                        }
-                        //personnalisation de l'affichage selon la courbe survolée
+                        let label = context.dataset.label || '';
+                        if (label) label += ': ';
                         if (context.datasetIndex === 0) {
-                            // pour le taux : 2 décimales et on ajoute le symbole % pour la clarté et ne pas se perdre dans les deux types de valeur
                             label += context.parsed.y.toFixed(2) + ' %';
                         } else {
-                            // pour le nombre total : on formate le nombre pour la clarté aussi
                             label += context.parsed.y.toLocaleString();
                         }
                         return label;
@@ -133,102 +122,124 @@ export default function TauxLogementsChart({ data }) {
                 }
             }
         },
-        scales: { //configuration des axex
-            y: { //axe vertical de gauche (utilisé pour les pourcentages)
+        scales: {
+            y: {
                 type: 'linear',
                 display: true,
                 position: 'left',
-                title: {
-                    display: true,
-                    text: 'Taux (%)', //on précise que ce sont les taux car il y a deux types de valeurs
-                    color: '#A4CEC6'
-                },
-                ticks: {
-                    //ajoute l'unité % aux graduations pour la clarté
-                    callback: (value) => value + ' %'
-                }
+                grid: { drawOnChartArea: false },
+                title: { display: true, text: 'Taux (%)', color: '#F59E0B', font: { weight: 'bold' } },
+                ticks: { callback: (value) => value + ' %' }
             },
-            y1: { //axe vertical de droite (utilisé pour les grands nombres de logements)
+            y1: {
                 type: 'linear',
                 display: true,
                 position: 'right',
-                title: {
-                    display: true,
-                    text: 'Nombre de logements', //on précise que ce sont les nombres de logements car il y a toujours deux types de valeurs
-                    color: '#4B7A71'
-                },
+                title: { display: true, text: 'Volume Logements', color: '#6366F1', font: { weight: 'bold' } },
             },
         },
     };
 
-
     // 3ème Graphique : Doughnut
     const doughnutData = {
-        labels: ["Logements Sociaux (%)", "Autres types de logements (%)"],
+        labels: ["Logements Sociaux (%)", "Autres (%)"],
         datasets: [{
-            label: `Proportion pour ${firstItem.critere?.nomDepartement || 'département'}`,
             data: [
                 firstItem.pourcTauxLogementsSociaux,
-                (100 - firstItem.pourcTauxLogementsSociaux).toFixed(2) //pour remplir le graphique
+                (100 - firstItem.pourcTauxLogementsSociaux).toFixed(2)
             ],
-            backgroundColor: [
-                '#7DA9A1',
-                '#A4CEC6'
-            ],
-            hoverOffset: 4
+            backgroundColor: [ '#6366F1', '#E2E8F0' ],
+            borderColor: '#ffffff',
+            borderWidth: 2,
+            hoverOffset: 8
         }]
     };
 
     return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-
-            <section> TEXTE
-
-
-            </section>
-
-            {/* conteneur pour le premier graphique camembert centré */}
-            <div style={{ width: "500px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>1. Répartition des taux ({firstItem.critere?.nomDepartement}) en {firstItem.critere?.anneePublication}</h3>
-                <Pie
-                    data={pieData}
-                    options={{
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    // personnalisation de l'affichage au survol
-                                    // affiche "Nom de la catégorie: Valeur%"
-                                    label: (context) => ` ${context.label}: ${context.parsed}%`
+            <div className="taux-card">
+                <h3>1. Répartition détaillée des types de logements</h3>
+                
+                <div style={{ 
+                    display: "flex", 
+                    flexWrap: "wrap", 
+                    gap: "2rem", 
+                    alignItems: "center", 
+                    marginTop: "2rem" 
+                }}>
+                    {/* Colonne de gauche : Le Graphique */}
+                    <div style={{ flex: "1 1 300px", height: "300px" }}>
+                        <Doughnut
+                            data={pieData}
+                            options={{
+                                cutout: '70%',
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false } // On cache la légende car on va mettre le texte à droite
                                 }
-                            }
-                        }
-                    }}
-                />
+                            }}
+                        />
+                    </div>
+
+                    {/* Colonne de droite : Le Texte */}
+                    <div style={{ flex: "1 1 300px" }}>
+                        <div style={{ marginBottom: "1.5rem" }}>
+                            <p style={{ margin: 0, color: "#64748b", fontSize: "0.875rem", fontWeight: "600", textTransform: "uppercase" }}>
+                                Localisation
+                            </p>
+                            <p style={{ margin: 0, fontSize: "1.25rem", fontWeight: "700", color: "#1e293b" }}>
+                                {firstItem.critere?.nomDepartement} <span style={{ color: "#6366f1" }}>({firstItem.critere?.anneePublication})</span>
+                            </p>
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                <div style={{ width: "12px", height: "12px", borderRadius: "3px", backgroundColor: "#6366F1" }}></div>
+                                <span style={{ flex: 1, color: "#475569" }}>Logements Sociaux</span>
+                                <span style={{ fontWeight: "700", color: "#1e293b" }}>{firstItem.pourcTauxLogementsSociaux}%</span>
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                <div style={{ width: "12px", height: "12px", borderRadius: "3px", backgroundColor: "#F59E0B" }}></div>
+                                <span style={{ flex: 1, color: "#475569" }}>Logements Vacants</span>
+                                <span style={{ fontWeight: "700", color: "#1e293b" }}>{firstItem.pourcTauxLogementsVacants}%</span>
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                <div style={{ width: "12px", height: "12px", borderRadius: "3px", backgroundColor: "#94A3B8" }}></div>
+                                <span style={{ flex: 1, color: "#475569" }}>Logements Individuels</span>
+                                <span style={{ fontWeight: "700", color: "#1e293b" }}>{firstItem.pourcTauxLogementsIndividuels}%</span>
+                            </div>
+                        </div>
+
+                        <p style={{ marginTop: "2rem", fontSize: "0.875rem", color: "#64748b", fontStyle: "italic", lineHeight: "1.5" }}>
+                            Ce graphique illustre la distribution relative des différentes catégories de logements pour ce département sur l'année sélectionnée.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            {/* Graphique Line */}
-            <div style={{ width: "100%", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>2. Évolution : Taux vacants vs Volume total<br />(Lieu : {firstItem.critere?.nomDepartement})</h3>
-                <Line data={lineData} options={lineOptions} />
+
+            <div className="taux-card">
+                <h3>2. Évolution du parc ({firstItem.critere?.nomDepartement})</h3>
+                <div style={{ height: "400px", marginTop: "1.5rem" }}>
+                    <Line data={lineData} options={{ ...lineOptions, maintainAspectRatio: false }} />
+                </div>
             </div>
 
-            {/* Graphique Doughnut */}
-            <div style={{ width: "500px", margin: "0 auto" }}>
-                <h3 style={{ textAlign: "center" }}>3. Part du Parc Social <br />({firstItem.critere?.nomDepartement} en {firstItem.critere?.anneePublication})</h3>
-                <Doughnut
-                    data={doughnutData}
-                    options={{
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: (context) => ` ${context.label}: ${context.parsed}%`
-                                }
+            <div className="taux-card" style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }}>
+                <h3>3. Focus : Part du Parc Social ({firstItem.critere?.anneePublication})</h3>
+                <div style={{ height: "300px", marginTop: "1.5rem" }}>
+                    <Doughnut
+                        data={doughnutData}
+                        options={{
+                            cutout: '65%',
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom', labels: { usePointStyle: true } }
                             }
-                        }
-                    }}
-                />
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );

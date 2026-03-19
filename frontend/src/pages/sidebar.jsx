@@ -3,35 +3,27 @@ import "../css_pages/sidebar.css";
 export default function Sidebar({ setPage }) {
     return (
         <div className="sidebar">
+            <h1 className="menu-title" onClick={() => setPage("main")} style={{ cursor: "pointer" }}>
+                Habitat France
+            </h1>
 
-            <div className="sidebar-menu">
-                <p className="menu-title">Accueil →</p>
+            <div className="sidebar-menu" style={{ justifyContent: "flex-end" }}>
+                <button onClick={() => setPage("parc-social")}>
+                    Analyse Parc Social
+                </button>
 
-                <div className="menu-section">
+                <button onClick={() => setPage("taux-logements")}>
+                    Taux Logements
+                </button>
 
-                    <button onClick={() => setPage("main")}>
-                        Cartographie Nationale (Carte de France)
-                    </button>
+                <button onClick={() => setPage("logements")}>
+                    Chiffres Habitat
+                </button>
 
-                </div>
-
-                <div className="menu-section">
-                    <button onClick={() => setPage("parc-social")}>
-                        Analyse du Parc Social
-                    </button>
-                </div>
-
-                <div className="menu-section">
-                    <button onClick={() => setPage("taux-logements")}>
-                        Densité de Logements (Taux Logements)
-                    </button>
-                </div>
-                <div className="menu-section">
-                    <button onClick={() => setPage("logements")}>
-                        Chiffres clés de l'Habitat (Logements)
-                    </button>
-                </div>
+                <button onClick={() => setPage("main")} style={{ backgroundColor: "#6366f1", color: "white", marginLeft: "1rem" }}>
+                    Carte
+                </button>
             </div>
         </div>
     );
-}
+}

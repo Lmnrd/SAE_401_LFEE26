@@ -1,44 +1,57 @@
 .sidebar {
-    width: 220px;
-    height: 100vh;
-    background: #fff;
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
-    padding: 1rem;
-
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box; /* Ensuring the padding doesn't push the width beyond 100% */
 }
 
-.sidebar-header {
-    font-size: 24px;
-    margin-bottom: 2rem;
+
+.sidebar-menu {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
 }
 
 .menu-title {
-    font-weight: bold;
-    margin-bottom: 1rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #1e293b;
+    margin: 0;
+    white-space: nowrap;
+    padding-right: 1.5rem;
+    border-right: 2px solid #f1f5f9;
 }
 
 .menu-section {
-    margin-bottom: 1rem;
-    border-top: 1px solid #ccc;
-    padding-top: 0.5rem;
-}
-
-.section-title {
-    font-size: 14px;
-    color: #666;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .sidebar button {
-    display: block;
-    width: 100%;
+    display: inline-block;
     border: none;
-    background: none;
-    text-align: left;
-    padding: 5px 0;
+    background: transparent;
+    text-align: center;
+    padding: 0.5rem 1rem;
     cursor: pointer;
+    font-weight: 600;
+    color: #64748b;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    font-size: 0.95rem;
 }
 
 .sidebar button:hover {
-    color: #4B7A71;
-}
+    background-color: #f1f5f9;
+    color: #6366f1; /* Consistent Indigo theme */
+}
