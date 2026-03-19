@@ -11,7 +11,6 @@ export default function LogementsPage() {
     const [years, setYears] = useState([]);
     const [names, setNames] = useState([]);
 
-    // 🔹 FETCH DATA
     useEffect(() => {
         fetch("http://localhost:8000/api/logements")
             .then(res => res.json())
@@ -21,14 +20,12 @@ export default function LogementsPage() {
                 setData(json);
                 setFilteredData(json);
 
-                // 🔹 récupérer années
                 const uniqueYears = [...new Set(
                     json.map(item => item.critere?.anneePublication)
                 )].filter(Boolean);
 
                 setYears(uniqueYears);
 
-                // 🔹 récupérer départements
                 const uniqueNames = [...new Set(
                     json.map(item => item.critere?.nomDepartement)
                 )].filter(Boolean);
@@ -38,7 +35,6 @@ export default function LogementsPage() {
             .catch(err => console.error(err));
     }, []);
 
-    // 🔥 FILTRE
     useEffect(() => {
         let filtered = data;
 
@@ -63,9 +59,8 @@ export default function LogementsPage() {
         <div style={{ maxWidth: "900px", margin: "2rem auto" }}>
             <h2>Logements</h2>
 
-            {/* 🔹 FILTRES */}
             <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-                
+
                 <select onChange={(e) => setSelectedYear(e.target.value)}>
                     <option value="">Toutes les années</option>
                     {years.map(y => (
@@ -88,7 +83,6 @@ export default function LogementsPage() {
                 </button>
             </div>
 
-            {/* 🔹 GRAPH */}
             <LogementChart data={filteredData} />
         </div>
     );

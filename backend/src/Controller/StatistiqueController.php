@@ -47,8 +47,8 @@ final class StatistiqueController extends AbstractController
     public function tauxLogement(EntityManagerInterface $entityManager): Response
     {
         $tauxLogement = $entityManager->getRepository(TauxLogement::class)->findAll();
-        return $this->json($tauxLogement, 200, [
-            'Access-Control-Allow-Origin' => '*'
+        return $this->json($tauxLogement, 200, [ // 200 sert à indiquer que la requete s'est bien passée
+            'Access-Control-Allow-Origin' => '*' // accepte les requetes venant de n'importe quelle origine / n'importe quel port
         ], [
             'groups' => ['taux_logement']
         ]);
