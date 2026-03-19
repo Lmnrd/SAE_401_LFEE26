@@ -27,7 +27,6 @@ function App() {
 
       <div style={{ flex: 1, padding: "20px" }}>
         <h1>Tableau de bord du parc locatif social en France</h1>
-        <h2>Cartographie Nationale (Carte de France)</h2>
         {renderPage()}
       </div>
     </div>

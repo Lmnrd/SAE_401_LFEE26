@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import TauxLogementsChart from "../chart/TauxLogementsChart";
+import "../css_pages/tauxLogements.css";
 
 export default function TauxLogementsPage() {
     const [data, setData] = useState(null);
@@ -140,7 +141,7 @@ export default function TauxLogementsPage() {
                     </select>
                 </div>
             </div>
-            
+
             {/*ici on appelle le graphique*/}
             <TauxLogementsChart data={filteredData} />
         </div>
