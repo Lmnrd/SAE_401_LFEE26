@@ -87,7 +87,7 @@ export default function TauxLogementsPage() {
                     <select
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
+                        className="filter-control"
                     >
                         <option value="">Toutes les années</option>
                         {years.map(y => (
@@ -105,7 +105,7 @@ export default function TauxLogementsPage() {
                     <select
                         value={selectedName}
                         onChange={(e) => setSelectedName(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
+                        className="filter-control"
                     >
                         <option value="">Tous les départements</option>
                         {names.map(name => (
@@ -124,7 +124,7 @@ export default function TauxLogementsPage() {
                         id="region-select"
                         value={selectedRegion}
                         onChange={(e) => setSelectedRegion(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
+                        className="filter-control"
                     >
                         <option value="">Toutes les régions</option>
                         {regions.map(region => (
