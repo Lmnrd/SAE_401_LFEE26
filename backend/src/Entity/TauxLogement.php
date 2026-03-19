@@ -30,6 +30,7 @@ class TauxLogement
     #[Groups(['taux_logement'])]
     private ?int $nombreLogements = null;
 
+    // relation ManyToOne avec Critere car un critère peut avoir plusieurs taux de logement mais un taux de logement n'est lié qu'à un seul critère
     #[ORM\ManyToOne(targetEntity: Critere::class, inversedBy: 'tauxLogements')]
     #[ORM\JoinColumn(name: 'critere_id', referencedColumnName: 'id')]
     #[Groups(['taux_logement'])]
