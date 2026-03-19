@@ -1,4 +1,4 @@
-import "../css_pages/Sidebar.css";
+import "../css_pages/sidebar.css";
 
 export default function Sidebar({ setPage }) {
     return (
@@ -10,25 +10,25 @@ export default function Sidebar({ setPage }) {
                 <div className="menu-section">
 
                     <button onClick={() => setPage("main")}>
-                        Carte France
+                        Cartographie Nationale (Carte de France)
                     </button>
 
                 </div>
 
                 <div className="menu-section">
                     <button onClick={() => setPage("parc-social")}>
-                        Parc Social 
+                        Analyse du Parc Social
                     </button>
                 </div>
 
                 <div className="menu-section">
                     <button onClick={() => setPage("taux-logements")}>
-                        Taux de Logements
+                        Densité de Logements (Taux Logements)
                     </button>
                 </div>
                 <div className="menu-section">
-                <button onClick={() => setPage("logements")}>
-                        Logements
+                    <button onClick={() => setPage("logements")}>
+                        Chiffres clés de l'Habitat (Logements)
                     </button>
                 </div>
             </div>

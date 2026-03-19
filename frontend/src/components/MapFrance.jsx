@@ -133,8 +133,8 @@ export default function MapFrance() {
                     // Styles de la carte selon l'état du département (normal, survolé, cliqué)
                     style={{
                       default: {
-                        // Couleur de base de chaque département
-                        fill: isSelected ? "#3498db" : "#bdc3c7",
+                        // Couleur de base de chaque département et quand on ferme le département
+                        fill: isSelected ? "#4B7A71" : "#A4CEC6",
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -142,7 +142,7 @@ export default function MapFrance() {
                       },
                       hover: {
                         // Couleur quand la souris est au-dessus
-                        fill: "#2980b9",
+                        fill: "#4B7A71",
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -151,7 +151,7 @@ export default function MapFrance() {
                       },
                       pressed: {
                         // Couleur quand on clique
-                        fill: "#1f618d",
+                        fill: "#7DA9A1",
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none"

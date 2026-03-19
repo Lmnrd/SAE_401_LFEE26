@@ -12,6 +12,8 @@ export default function TauxLogementsPage() {
 
     const [names, setNames] = useState([]);
     const [selectedName, setSelectedName] = useState("");
+    const [regions, setRegions] = useState([]);
+    const [selectedRegion, setSelectedRegion] = useState("");
 
     useEffect(() => {
         getTauxLogement() 
@@ -36,6 +38,8 @@ export default function TauxLogementsPage() {
                     .sort();
 
                 setNames(uniqueNames);
+
+                setFilteredData(json); //valeur de base dans le filtre
             })
             .catch((err) => setError(err.message));
     }, []);
@@ -57,8 +61,14 @@ export default function TauxLogementsPage() {
             );
         }
 
+        if (selectedRegion) {
+            filtered = filtered.filter(
+                item => item.critere?.nomRegion === selectedRegion
+            );
+        }
+
         setFilteredData(filtered);
-    }, [selectedYear, selectedName, data]);
+    }, [selectedYear, selectedName, selectedRegion, data]);
 
     if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
     if (!data) return <p>Chargement des données...</p>;
@@ -104,15 +114,8 @@ export default function TauxLogementsPage() {
                         ))}
                     </select>
                 </div>
-
-                <button onClick={() => {
-                    setSelectedYear("");
-                    setSelectedName("");
-                }}>
-                    Reset
-                </button>
             </div>
-
+            {/*ici on appelle le graphique*/}
             <TauxLogementsChart data={filteredData} />
         </div>
     );
