@@ -14,15 +14,18 @@ import { Bar, Doughnut } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 export default function ParcSocialChart({ data }) {
+  // Vérification si les données sont disponibles, sinon afficher un message
   if (!data || data.length === 0) return <p>Aucune donnée à afficher pour le graphique.</p>;
 
+  // Récupération du premier élément pour référence
   const firstItem = data[0];
 
-  // --- LOGIQUE DE REGROUPEMENT PAR RÉGION ---
+  // Utilisation de reduce pour agréger les données par région
   const aggregatedData = data.reduce((acc, item) => {
     // Accès au nom de la région via la relation critere
     const region = item.critere?.nomRegion || "Région inconnue";
 
+    // Initialisation de l'objet pour la région si elle n'existe pas encore
     if (!acc[region]) {
       acc[region] = {
         nombreLogements: 0,
@@ -32,7 +35,7 @@ export default function ParcSocialChart({ data }) {
       };
     }
 
-    // Propriétés de l'entité ParcSocial
+    // Accumulation des valeurs pour chaque propriété de l'entité
     acc[region].nombreLogements += item.nombreLogements || 0;
     acc[region].logementsDemolis += item.logementsDemolis || 0;
     acc[region].logementsLocation += item.logementsLocation || 0;
@@ -65,9 +68,11 @@ export default function ParcSocialChart({ data }) {
     ],
   };
 
+  // Calcul des totaux pour le graphique en doughnut (location et ventes)
   const totalLocation = Object.values(aggregatedData).reduce((sum, r) => sum + r.logementsLocation, 0);
   const totalVentes = Object.values(aggregatedData).reduce((sum, r) => sum + r.ventesPersonnesPhysiques, 0);
 
+  // Configuration des données pour le graphique en doughnut
   const doughnutData = {
     labels: ["Logements mis en location", "Ventes à des personnes physiques"],
     datasets: [

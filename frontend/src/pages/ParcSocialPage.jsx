@@ -3,53 +3,63 @@ import ParcSocialChart from "../chart/ParcSocialChart";
 import { getParcSocial } from "../services/fetch.js"; 
 
 export default function ParcSocialPage() {
-  const [data, setData] = useState([]);
+  // États pour gérer les données, erreurs, données filtrées, années et année sélectionnée
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
 
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
 
+  // Effet pour récupérer les données depuis l'API
   useEffect(() => {
-    getParcSocial() 
+    fetch("http://localhost:8000/api/parc-social")
+      .then((res) => {
+        // Vérification du statut de la réponse HTTP
+        if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
+        return res.json();
+      })
       .then((json) => {
-        console.log("DATA:", json);
-
+        // Stockage des données récupérées
         setData(json);
-        setFilteredData(json);
 
-        const uniqueYears = [...new Set(
-          json.map(item => item.anneePublication)
-        )]
-          .filter(Boolean)
-          .sort((a, b) => b - a);
-
+        // Extraction des années uniques depuis les critères des données
+        const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))].filter(Boolean).sort();
         setYears(uniqueYears);
 
         if (uniqueYears.length > 0) {
-          setSelectedYear(uniqueYears[0].toString());
+          setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
+        } else {
+          // Si aucune année, utiliser toutes les données
+          setFilteredData(json);
         }
       })
       .catch((err) => setError(err.message));
   }, []);
 
+  // Effet pour filtrer les données en fonction de l'année sélectionnée
   useEffect(() => {
     if (!data) return;
 
     let filtered = data;
 
     if (selectedYear) {
-      filtered = filtered.filter(
-        item => item.anneePublication?.toString() === selectedYear
-      );
+      // Filtrage des données pour l'année sélectionnée
+      const filtered = data.filter(item => item.critere?.anneePublication?.toString() === selectedYear);
+      setFilteredData(filtered);
+    } else {
+      // Si aucune année sélectionnée, utiliser toutes les données
+      setFilteredData(data);
     }
 
     setFilteredData(filtered);
   }, [selectedYear, data]);
 
+  // Gestion des états d'erreur et de chargement
   if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
   if (!data) return <p>Chargement des données...</p>;
 
+  // Rendu du composant avec le titre, le sélecteur d'année et le graphique
   return (
     <div style={{ maxWidth: "900px", margin: "2rem auto", padding: "0 1rem" }}>
       <h2>Parc Social</h2>
