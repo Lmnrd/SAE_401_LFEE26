@@ -55,7 +55,7 @@ export default function ParcSocialPage() {
           id="year-select"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
-          style={{ padding: "0.5rem", borderRadius: "4px" }}
+          className="filter-control"
         >
           <option value="">Toutes les années (Cumul global)</option>
           {years.map(y => <option key={y} value={y.toString()}>{y}</option>)}
