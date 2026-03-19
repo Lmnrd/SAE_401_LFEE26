@@ -60,7 +60,7 @@ export default function LogementsPage() {
             <h2>Logements</h2>
 
             <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-                
+
                 <select onChange={(e) => setSelectedYear(e.target.value)}>
                     <option value="">Toutes les années</option>
                     {years.map(y => (

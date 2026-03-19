@@ -11,6 +11,8 @@ export default function TauxLogementsPage() {
     const [selectedYear, setSelectedYear] = useState("");
     const [names, setNames] = useState([]);
     const [selectedName, setSelectedName] = useState("");
+    const [regions, setRegions] = useState([]);
+    const [selectedRegion, setSelectedRegion] = useState("");
 
     useEffect(() => {
         fetch("http://localhost:8000/api/taux-logement")
@@ -32,6 +34,12 @@ export default function TauxLogementsPage() {
                     .filter(Boolean)
                     .sort();
                 setNames(uniqueNames);
+
+                //extraction des régions
+                const uniqueRegions = [...new Set(json.map(item => item.critere?.nomRegion))]
+                    .filter(Boolean)
+                    .sort();
+                setRegions(uniqueRegions);
 
                 setFilteredData(json); //valeur de base dans le filtre
             })
@@ -57,8 +65,14 @@ export default function TauxLogementsPage() {
             );
         }
 
+        if (selectedRegion) {
+            filtered = filtered.filter(
+                item => item.critere?.nomRegion === selectedRegion
+            );
+        }
+
         setFilteredData(filtered);
-    }, [selectedYear, selectedName, data]);
+    }, [selectedYear, selectedName, selectedRegion, data]);
 
     if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
     if (!data) return <p>Chargement des données...</p>;
@@ -106,7 +120,27 @@ export default function TauxLogementsPage() {
                         ))}
                     </select>
                 </div>
+
+                <div>
+                    <label htmlFor="region-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
+                        Région :
+                    </label>
+                    <select
+                        id="region-select"
+                        value={selectedRegion}
+                        onChange={(e) => setSelectedRegion(e.target.value)}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: '1px solid #ddd' }}
+                    >
+                        <option value="">Toutes les régions</option>
+                        {regions.map(region => (
+                            <option key={region} value={region}>
+                                {region}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
+            
             {/*ici on appelle le graphique*/}
             <TauxLogementsChart data={filteredData} />
         </div>
