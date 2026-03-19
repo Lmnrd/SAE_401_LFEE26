@@ -49,7 +49,7 @@ export default function TauxLogementsChart({ data }) {
     });
 
     const labels = series.map((item) => String(item?.critere?.anneePublication ?? "")); // CHOIX DE LA DONNEE A AFFICHER
-    // 1er Graphique : Doughnut (plus moderne qu'un Pie plein)
+    // 1er Graphique : Doughnut
     const pieData = {
         labels: ["Logements Sociaux (%)", "Logements Vacants (%)", "Logements Individuels (%)"],
         datasets: [
@@ -164,12 +164,12 @@ export default function TauxLogementsChart({ data }) {
                 <div style={{
                     display: "flex",
                     flexWrap: "wrap",
-                    gap: "2rem",
-                    alignItems: "center",
+                    gap: "3rem",
+                    alignItems: "flex-start",
                     marginTop: "2rem"
                 }}>
-                    {/* Colonne de gauche : Le Graphique (Agrandi) */}
-                    <div style={{ flex: "1 1 400px", height: "400px" }}>
+                    {/* Colonne de gauche : Le Graphique (Fixé à gauche) */}
+                    <div style={{ flex: "0 0 400px", height: "400px", minWidth: "300px" }}>
                         <Doughnut
                             data={pieData}
                             options={{
@@ -182,8 +182,9 @@ export default function TauxLogementsChart({ data }) {
                         />
                     </div>
 
-                    {/* Colonne de droite : Plus de texte et Insights */}
-                    <div style={{ flex: "1.5 1 450px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                    {/* Colonne de droite : Prend tout le reste de l'espace */}
+                    <div style={{ flex: "1 1 400px", display: "flex", flexDirection: "column", gap: "1rem" }}>
+
                         <div>
                             <p style={{ margin: 0, color: "#64748b", fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                                 Analyse Territoriale
@@ -206,6 +207,7 @@ export default function TauxLogementsChart({ data }) {
                             borderRadius: "12px",
                             border: "1px solid #e2e8f0"
                         }}>
+                            {/* PARTIE INFOS DES GRAPHS */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                     <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#6366F1" }}></div>
