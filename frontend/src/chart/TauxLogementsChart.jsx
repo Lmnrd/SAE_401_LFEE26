@@ -307,25 +307,11 @@ export default function TauxLogementsChart({ data }) {
                 <div style={{
                     display: "flex",
                     flexWrap: "wrap",
-                    gap: "2rem",
+                    gap: "3rem",
                     alignItems: "center",
                     marginTop: "2rem"
                 }}>
-                    {/* Colonne de gauche : Le Graphique */}
-                    <div style={{ flex: "1 1 300px", height: "350px" }}>
-                        <Doughnut
-                            data={doughnutData}
-                            options={{
-                                cutout: '65%',
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: { display: false }
-                                }
-                            }}
-                        />
-                    </div>
-
-                    {/* Colonne de droite : Détails Social */}
+                    {/* Colonne de gauche : Détails Social */}
                     <div style={{ flex: "1.2 1 350px" }}>
                         <p style={{ margin: 0, color: "#64748b", fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                             Indicateur Social
@@ -344,17 +330,32 @@ export default function TauxLogementsChart({ data }) {
                         </div>
 
                         <p style={{ fontSize: "0.95rem", color: "#475569", lineHeight: "1.6", marginBottom: "1.5rem" }}>
-                            Ce ratio illustre la proportion de logements conventionnés par rapport à l'offre globale. Un taux élevé indique une forte présence institutionnelle pour l'habitat abordable dans le département de {firstItem.critere?.nomDepartement}.
+                            Ce ratio illustre la proportion de logements conventionnés par rapport à l'offre globale. Un taux élevé indique une forte présence institutionnelle pour l'habitat abordable.
                         </p>
 
-                        <div style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "1rem", background: "white", border: "1px solid #e2e8f0", borderRadius: "10px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "1rem", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "10px" }}>
                             <div style={{ fontSize: "0.85rem", color: "#475569" }}>
-                                <strong>Année de référence :</strong> {firstItem.critere?.anneePublication}<br />
-                                <strong>Territoire :</strong> {firstItem.critere?.nomDepartement}
+                                <strong>Territoire :</strong> {firstItem.critere?.nomDepartement}<br />
+                                <strong>Année :</strong> {firstItem.critere?.anneePublication}
                             </div>
                         </div>
                     </div>
+
+                    {/* Colonne de droite : Le Graphique */}
+                    <div style={{ flex: "1 1 300px", height: "350px" }}>
+                        <Doughnut
+                            data={doughnutData}
+                            options={{
+                                cutout: '65%',
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false }
+                                }
+                            }}
+                        />
+                    </div>
                 </div>
+
             </div>
         </div>
     );
