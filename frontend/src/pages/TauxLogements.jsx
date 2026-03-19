@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import TauxLogementsChart from "../chart/TauxLogementsChart";
-<<<<<<< HEAD
 import "../css_pages/tauxLogements.css";
-=======
 import { getTauxLogement } from "../services/fetch.js";
->>>>>>> d0a35e66b6e2ad5591231671c31450d80c39095a
 
 export default function TauxLogementsPage() {
     const [data, setData] = useState([]);
@@ -20,7 +17,7 @@ export default function TauxLogementsPage() {
     const [selectedRegion, setSelectedRegion] = useState("");
 
     useEffect(() => {
-        getTauxLogement() 
+        getTauxLogement()
             .then((json) => {
                 console.log("DATA:", json);
 
@@ -119,10 +116,7 @@ export default function TauxLogementsPage() {
                     </select>
                 </div>
             </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> d0a35e66b6e2ad5591231671c31450d80c39095a
             {/*ici on appelle le graphique*/}
             <TauxLogementsChart data={filteredData} />
         </div>
