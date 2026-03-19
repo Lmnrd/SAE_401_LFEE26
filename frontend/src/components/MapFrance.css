@@ -61,7 +61,7 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #7f8c8d;
+  color: #A4CEC6;
   cursor: pointer;
   line-height: 1;
   padding: 5px;
@@ -69,20 +69,22 @@
 }
 
 .close-btn:hover {
-  color: #e74c3c;
+  color: #4B7A71;
 }
 
+/*titre departement et ligne */
 .info-card h3 {
   margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
+  color: #4B7A71;
+  border-bottom: 2px solid #4B7A71;
   padding-bottom: 10px;
   font-size: 1.5rem;
   padding-right: 30px; /* space for close button */
 }
 
+/*code departement*/
 .info-card p {
-  color: #34495e;
+  color: #4B7A71;
   line-height: 1.6;
 }
 
@@ -90,8 +92,9 @@
   margin-top: 20px;
 }
 
+/*statistique année*/
 .db-data h4 {
-  color: #2c3e50;
+  color: #4B7A71;
   margin-bottom: 10px;
 }
 
@@ -100,18 +103,19 @@
   padding-left: 0;
 }
 
+/*données des catégories*/
 .db-data li {
   padding: 8px 0;
-  border-bottom: 1px solid #ecf0f1;
-  color: #34495e;
+  color: #4B7A71;
 }
 
 .db-data li:last-child {
   border-bottom: none;
 }
 
+/*titres des catégories*/
 .db-data li strong {
-  color: #2980b9;
+  color: #A4CEC6;
 }
 
 .error-text {
@@ -126,10 +130,10 @@
   margin-top: 20px;
 }
 
-/* Tooltip Customization */
+/* survole département */
 #france-tooltip {
-  background-color: rgba(44, 62, 80, 0.95);
-  color: white;
+  background-color: #ffffff ;
+  color: #4B7A71;
   border-radius: 6px;
   padding: 8px 12px;
   font-weight: 600;
