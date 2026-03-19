@@ -3,12 +3,8 @@ import ParcSocialChart from "../chart/ParcSocialChart";
 import { getParcSocial } from "../services/fetch.js"; 
 
 export default function ParcSocialPage() {
-<<<<<<< HEAD
   // États pour gérer les données, erreurs, données filtrées, années et année sélectionnée
   const [data, setData] = useState(null);
-=======
-  const [data, setData] = useState([]);
->>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
 
@@ -17,7 +13,6 @@ export default function ParcSocialPage() {
 
   // Effet pour récupérer les données depuis l'API
   useEffect(() => {
-<<<<<<< HEAD
     fetch("http://localhost:8000/api/parc-social")
       .then((res) => {
         // Vérification du statut de la réponse HTTP
@@ -30,32 +25,13 @@ export default function ParcSocialPage() {
 
         // Extraction des années uniques depuis les critères des données
         const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))].filter(Boolean).sort();
-=======
-    getParcSocial() 
-      .then((json) => {
-        console.log("DATA:", json);
-
-        setData(json);
-        setFilteredData(json);
-
-        const uniqueYears = [...new Set(
-          json.map(item => item.anneePublication)
-        )]
-          .filter(Boolean)
-          .sort((a, b) => b - a);
-
->>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
         setYears(uniqueYears);
 
         if (uniqueYears.length > 0) {
-<<<<<<< HEAD
           setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
         } else {
           // Si aucune année, utiliser toutes les données
           setFilteredData(json);
-=======
-          setSelectedYear(uniqueYears[0].toString());
->>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
         }
       })
       .catch((err) => setError(err.message));
@@ -68,18 +44,12 @@ export default function ParcSocialPage() {
     let filtered = data;
 
     if (selectedYear) {
-<<<<<<< HEAD
       // Filtrage des données pour l'année sélectionnée
       const filtered = data.filter(item => item.critere?.anneePublication?.toString() === selectedYear);
       setFilteredData(filtered);
     } else {
       // Si aucune année sélectionnée, utiliser toutes les données
       setFilteredData(data);
-=======
-      filtered = filtered.filter(
-        item => item.anneePublication?.toString() === selectedYear
-      );
->>>>>>> daebe45c5c7c7cf36c50c4917535eb0719e71866
     }
 
     setFilteredData(filtered);
