@@ -124,14 +124,6 @@ export default function TauxLogementsPage() {
                 </div>
 
                 <div>
-                    <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
-                        Région :
-                    </label>
-                    <select
-                        value={selectedRegion}
-                        onChange={(e) => setSelectedRegion(e.target.value)}
-                        style={{ padding: "0.5rem", borderRadius: "4px" }}
-                    ></select>
                     <label htmlFor="region-select" style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
                         Région :
                     </label>
