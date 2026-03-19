@@ -25,7 +25,7 @@ export default function TauxLogementsPage() {
                 setFilteredData(json);
 
                 const uniqueYears = [...new Set(
-                    json.map(item => item.anneePublication)
+                    json.map(item => item.critere?.anneePublication)
                 )]
                     .filter(Boolean)
                     .sort((a, b) => b - a);
@@ -33,12 +33,19 @@ export default function TauxLogementsPage() {
                 setYears(uniqueYears);
 
                 const uniqueNames = [...new Set(
-                    json.map(item => item.nomDepartement)
+                    json.map(item => item.critere?.nomDepartement)
                 )]
                     .filter(Boolean)
                     .sort();
 
                 setNames(uniqueNames);
+
+                const uniqueRegions = [...new Set(
+                    json.map(item => item.critere?.nomRegion)
+                )]
+                    .filter(Boolean)
+                    .sort();
+                setRegions(uniqueRegions);
 
                 setFilteredData(json); //valeur de base dans le filtre
             })
@@ -52,13 +59,13 @@ export default function TauxLogementsPage() {
 
         if (selectedYear) {
             filtered = filtered.filter(
-                item => item.anneePublication?.toString() === selectedYear
+                item => item.critere?.anneePublication?.toString() === selectedYear
             );
         }
 
         if (selectedName) {
             filtered = filtered.filter(
-                item => item.nomDepartement === selectedName
+                item => item.critere?.nomDepartement === selectedName
             );
         }
 
@@ -111,6 +118,24 @@ export default function TauxLogementsPage() {
                         {names.map(name => (
                             <option key={name} value={name}>
                                 {name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
+                        Région :
+                    </label>
+                    <select
+                        value={selectedRegion}
+                        onChange={(e) => setSelectedRegion(e.target.value)}
+                        style={{ padding: "0.5rem", borderRadius: "4px" }}
+                    >
+                        <option value="">Toutes les régions</option>
+                        {regions.map(region => (
+                            <option key={region} value={region}>
+                                {region}
                             </option>
                         ))}
                     </select>
