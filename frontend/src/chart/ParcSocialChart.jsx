@@ -54,15 +54,15 @@ export default function ParcSocialChart({ data }) {
       {
         label: "Nombre de logements (Total)",
         data: nombreLogementsTotals,
-        backgroundColor: "rgba(54, 162, 235, 0.7)",
-        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "#6c209bff", // ancien : "rgba(54, 162, 235, 0.7)"
+        borderColor: "#6c209bff", // ancien : "rgba(54, 162, 235, 1)"
         borderWidth: 1,
       },
       {
         label: "Logements démolis (Total)",
         data: logementsDemolisTotals,
-        backgroundColor: "rgba(255, 99, 132, 0.7)",
-        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "#ab39e8ff", // ancien : "rgba(255, 99, 132, 0.7)"
+        borderColor: "#ab39e8ff", // ancien : "rgba(255, 99, 132, 1)"
         borderWidth: 1,
       },
     ],
@@ -79,12 +79,12 @@ export default function ParcSocialChart({ data }) {
       {
         data: [totalLocation, totalVentes],
         backgroundColor: [
-          "rgba(75, 192, 192, 0.7)",
-          "rgba(255, 159, 64, 0.7)",
+          "#6c209bff", // ancien : "rgba(75, 192, 192, 0.7)"
+          "#ab39e8ff", // ancien : "rgba(255, 159, 64, 0.7)"
         ],
         borderColor: [
-          "rgba(75, 192, 192, 1)",
-          "rgba(255, 159, 64, 1)",
+          "#6c209bff", // ancien : "rgba(75, 192, 192, 1)"
+          "#ab39e8ff", // ancien : "rgba(255, 159, 64, 1)"
         ],
         borderWidth: 1,
       },

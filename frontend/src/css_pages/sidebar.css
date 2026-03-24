@@ -10,7 +10,8 @@
     height: 70px;
     display: flex;
     align-items: center;
-    box-sizing: border-box; /* Ensuring the padding doesn't push the width beyond 100% */
+    box-sizing: border-box;
+    /* Ensuring the padding doesn't push the width beyond 100% */
 }
 
 
@@ -53,5 +54,6 @@
 
 .sidebar button:hover {
     background-color: #f1f5f9;
-    color: #6366f1; /* Consistent Indigo theme */
-}
+    color: #6c209bff;
+    /* ancien : #6366f1 */
+}

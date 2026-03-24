@@ -20,10 +20,10 @@ export default function Sidebar({ setPage }) {
                     Chiffres Habitat
                 </button>
 
-                <button onClick={() => setPage("main")} style={{ backgroundColor: "#6366f1", color: "white", marginLeft: "1rem" }}>
+                <button onClick={() => setPage("main")} style={{ backgroundColor: "#6c209bff", /* ancien : #6366f1 */ color: "white", marginLeft: "1rem" }}>
                     Carte
                 </button>
             </div>
         </div>
     );
-}
+}

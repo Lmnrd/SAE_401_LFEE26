@@ -136,7 +136,7 @@ export default function MapFrance() {
                     style={{
                       default: {
                         // Couleur de base de chaque département et quand on ferme le département
-                        fill: isSelected ? "#4B7A71" : "#A4CEC6",
+                        fill: isSelected ? "#6c209bff" : "#d48cf8ff", // ancien : isSelected ? "#4B7A71" : "#A4CEC6"
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -144,7 +144,7 @@ export default function MapFrance() {
                       },
                       hover: {
                         // Couleur quand la souris est au-dessus
-                        fill: "#4B7A71",
+                        fill: "#ab39e8ff", // ancien : "#4B7A71"
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -153,7 +153,7 @@ export default function MapFrance() {
                       },
                       pressed: {
                         // Couleur quand on clique
-                        fill: "#7DA9A1",
+                        fill: "#6c209bff", // ancien : "#7DA9A1"
                         stroke: "#ffffff",
                         strokeWidth: 0.5,
                         outline: "none"
