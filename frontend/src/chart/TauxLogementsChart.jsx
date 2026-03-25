@@ -267,7 +267,7 @@ export default function TauxLogementsChart({ data }) {
                                 Analyse de Tendance
                             </p>
                             <p style={{ margin: "0.5rem 0", fontSize: "1.5rem", fontWeight: "800", color: "#1e293b", letterSpacing: "-0.025em" }}>
-                                Dynamics of <span style={{ color: "#ab39e8ff" }}>vacance</span> and <span style={{ color: "#6c209bff" }}>volume</span>{/* Anciennes couleurs : #f59e0b and #6366f1 */}
+                                Dynamiques de <span style={{ color: "#ab39e8ff" }}>vacance</span> et de <span style={{ color: "#6c209bff" }}>volume</span>{/* Anciennes couleurs : #f59e0b and #6366f1 */}
                             </p>
                             <p style={{ fontSize: "0.95rem", color: "#475569", lineHeight: "1.6" }}>
                                 Ce graphique croise deux indicateurs fondamentaux : le taux de vacance (en orange) et le volume total de logements (en bleu). Cette double lecture permet d'identifier si l'augmentation des logements s'accompagne d'une occupation réelle ou d'une hausse de l'inoccupation.

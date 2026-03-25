@@ -4,7 +4,7 @@ export default function Sidebar({ setPage }) {
     return (
         <div className="sidebar">
             <h1 className="menu-title" onClick={() => setPage("main")} style={{ cursor: "pointer" }}>
-                Habitat France
+                HabitatFrance.fr
             </h1>
 
             <div className="sidebar-menu" style={{ justifyContent: "flex-end" }}>
