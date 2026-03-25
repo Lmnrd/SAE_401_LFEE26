@@ -1,0 +1,336 @@
+/* ============================================
+   Page Parc Social - Dashboard Styles
+   ============================================ */
+
+/* --- Page Layout --- */
+.parc-page-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.parc-page-title {
+    color: #1e293b;
+    font-weight: 800;
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+    letter-spacing: -0.025em;
+}
+
+/* --- Filters --- */
+.parc-filters {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    background: white;
+    padding: 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    border: 1px solid #e2e8f0;
+}
+
+.parc-filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.parc-filter-item label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.parc-select {
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: #fff;
+    min-width: 180px;
+    font-size: 0.875rem;
+    color: #334155;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.parc-select:focus {
+    outline: none;
+    border-color: #6c209b;
+    box-shadow: 0 0 0 3px rgba(108, 32, 155, 0.2);
+}
+
+.parc-select:hover {
+    border-color: #94a3b8;
+}
+
+.parc-reset-btn {
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #6c209b, #ab39e8);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+}
+
+.parc-reset-btn:hover {
+    background: linear-gradient(135deg, #5a1a82, #9530cc);
+    box-shadow: 0 4px 12px rgba(108, 32, 155, 0.3);
+    transform: translateY(-1px);
+}
+
+.parc-reset-btn:active {
+    transform: translateY(0);
+}
+
+/* --- Cards --- */
+.parc-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2.5rem;
+    border: 1px solid #e2e8f0;
+    transition: box-shadow 0.3s ease;
+}
+
+.parc-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+.parc-card h2 {
+    margin-top: 0;
+    color: #334155;
+    font-weight: 750;
+    text-align: center;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+}
+
+/* --- Card Content Layout --- */
+.parc-card-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    align-items: flex-start;
+    margin-top: 2rem;
+}
+
+.parc-chart-col {
+    flex: 1 1 400px;
+    min-width: 300px;
+}
+
+.parc-info-col {
+    flex: 1 1 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* --- Section Labels --- */
+.parc-section-label {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.parc-section-title {
+    margin: 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1e293b;
+    letter-spacing: -0.025em;
+}
+
+.parc-section-title .highlight {
+    color: #6c209b;
+}
+
+.parc-description {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- Stats Grid --- */
+.parc-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    padding: 1.25rem;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.parc-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.parc-stat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.parc-stat-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.parc-stat-dot.purple   { background-color: #6c209b; }
+.parc-stat-dot.violet   { background-color: #ab39e8; }
+.parc-stat-dot.lavender { background-color: #d48cf8; }
+.parc-stat-dot.light    { background-color: #e2e8f0; }
+
+.parc-stat-label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.parc-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* --- Big Number Display --- */
+.parc-big-number {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #1e293b;
+    margin: 1rem 0;
+    line-height: 1;
+}
+
+.parc-big-number .unit {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* --- Info Box (highlight) --- */
+.parc-info-box {
+    padding: 1.25rem;
+    background-color: rgba(108, 32, 155, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(108, 32, 155, 0.25);
+}
+
+.parc-info-box h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #6c209b;
+}
+
+.parc-info-box p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #5a1a82;
+}
+
+/* --- Points Clés (Key Points) --- */
+.parc-key-points h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.95rem;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.parc-key-points ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.7;
+}
+
+.parc-key-points li::marker {
+    color: #6c209b;
+}
+
+/* --- Territory Info --- */
+.parc-territory-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+/* --- Doughnut Container --- */
+.parc-doughnut-container {
+    height: 320px;
+    width: 320px;
+    margin: 0 auto;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .parc-page-wrapper {
+        padding: 1rem;
+    }
+
+    .parc-page-title {
+        font-size: 1.75rem;
+    }
+
+    .parc-filters {
+        flex-direction: column;
+    }
+
+    .parc-select {
+        min-width: 100%;
+    }
+
+    .parc-card-content {
+        gap: 1.5rem;
+    }
+
+    .parc-chart-col {
+        flex: 1 1 100%;
+    }
+
+    .parc-info-col {
+        flex: 1 1 100%;
+    }
+
+    .parc-section-title {
+        font-size: 1.25rem;
+    }
+
+    .parc-big-number {
+        font-size: 2.25rem;
+    }
+
+    .parc-doughnut-container {
+        width: 260px;
+        height: 260px;
+    }
+}

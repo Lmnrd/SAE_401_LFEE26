@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LogementChart from "../chart/LogementChart";
-import "../css_pages/tauxLogements.css";
+import "../css_pages/logement.css";
 import { getLogements } from "../services/fetch";
 
 export default function LogementsPage() {
@@ -79,15 +79,15 @@ export default function LogementsPage() {
     if (!data) return <p>Chargement des données...</p>;
 
     return (
-        <div className="taux-page-wrapper">
-            <h1 className="taux-page-title">Tableau de bord - Logements</h1>
+        <div className="logement-page-wrapper">
+            <h1 className="logement-page-title">Tableau de bord - Logements</h1>
 
-            <div className="taux-filters">
-                <div className="taux-filter-item">
+            <div className="logement-filters">
+                <div className="logement-filter-item">
                     <label htmlFor="year-select">Année Publication</label>
                     <select
                         id="year-select"
-                        className="taux-select"
+                        className="logement-select"
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(e.target.value)}
                     >
@@ -98,11 +98,11 @@ export default function LogementsPage() {
                     </select>
                 </div>
 
-                <div className="taux-filter-item">
+                <div className="logement-filter-item">
                     <label htmlFor="dept-select">Département</label>
                     <select
                         id="dept-select"
-                        className="taux-select"
+                        className="logement-select"
                         value={selectedName}
                         onChange={(e) => setSelectedName(e.target.value)}
                     >
@@ -113,11 +113,11 @@ export default function LogementsPage() {
                     </select>
                 </div>
 
-                <div className="taux-filter-item">
+                <div className="logement-filter-item">
                     <label htmlFor="region-select">Région</label>
                     <select
                         id="region-select"
-                        className="taux-select"
+                        className="logement-select"
                         value={selectedRegion}
                         onChange={(e) => setSelectedRegion(e.target.value)}
                     >
@@ -128,21 +128,21 @@ export default function LogementsPage() {
                     </select>
                 </div>
 
-                <div className="taux-filter-item">
+                <div className="logement-filter-item">
                     <button
-                        className="filter-button"
+                        className="logement-reset-btn"
                         onClick={() => {
                             setSelectedYear("");
                             setSelectedName("");
                             setSelectedRegion("");
                         }}
                     >
-                        Reset
+                        Réinitialiser
                     </button>
                 </div>
             </div>
 
-            <div className="taux-content">
+            <div className="logement-content">
                 <LogementChart data={filteredData} />
             </div>
         </div>

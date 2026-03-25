@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import ParcSocialChart from "../chart/ParcSocialChart";
-import { getParcSocial } from "../services/fetch.js"; 
+import "../css_pages/parcSocial.css";
+import { getParcSocial } from "../services/fetch.js";
 
 export default function ParcSocialPage() {
-  // États pour gérer les données, erreurs, données filtrées, années et année sélectionnée
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
@@ -11,80 +11,106 @@ export default function ParcSocialPage() {
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
 
-  // Effet pour récupérer les données depuis l'API
+  const [regions, setRegions] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState("");
+
   useEffect(() => {
     fetch("http://localhost:8000/api/parc-social")
       .then((res) => {
-        // Vérification du statut de la réponse HTTP
         if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
         return res.json();
       })
       .then((json) => {
-        // Stockage des données récupérées
         setData(json);
+        setFilteredData(json);
 
-        // Extraction des années uniques depuis les critères des données
-        const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))].filter(Boolean).sort();
+        const uniqueYears = [...new Set(json.map(item => item.critere?.anneePublication))]
+          .filter(Boolean)
+          .sort((a, b) => b - a);
         setYears(uniqueYears);
 
-        if (uniqueYears.length > 0) {
-          setSelectedYear(uniqueYears[uniqueYears.length - 1].toString());
-        } else {
-          // Si aucune année, utiliser toutes les données
-          setFilteredData(json);
-        }
+        const uniqueRegions = [...new Set(json.map(item => item.critere?.nomRegion))]
+          .filter(Boolean)
+          .sort();
+        setRegions(uniqueRegions);
       })
       .catch((err) => setError(err.message));
   }, []);
 
-  // Effet pour filtrer les données en fonction de l'année sélectionnée
   useEffect(() => {
     if (!data) return;
 
     let filtered = data;
 
     if (selectedYear) {
-      // Filtrage des données pour l'année sélectionnée
-      const filtered = data.filter(item => item.critere?.anneePublication?.toString() === selectedYear);
-      setFilteredData(filtered);
-    } else {
-      // Si aucune année sélectionnée, utiliser toutes les données
-      setFilteredData(data);
+      filtered = filtered.filter(
+        item => item.critere?.anneePublication?.toString() === selectedYear
+      );
+    }
+
+    if (selectedRegion) {
+      filtered = filtered.filter(
+        item => item.critere?.nomRegion === selectedRegion
+      );
     }
 
     setFilteredData(filtered);
-  }, [selectedYear, data]);
+  }, [selectedYear, selectedRegion, data]);
 
-  // Gestion des états d'erreur et de chargement
   if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
   if (!data) return <p>Chargement des données...</p>;
 
-  // Rendu du composant avec le titre, le sélecteur d'année et le graphique
   return (
-    <div style={{ maxWidth: "900px", margin: "2rem auto", padding: "0 1rem" }}>
-      <h2>Parc Social</h2>
+    <div className="parc-page-wrapper">
+      <h1 className="parc-page-title">Tableau de bord - Parc Social</h1>
 
-      <div style={{ marginBottom: "2rem" }}>
-        <label style={{ marginRight: "0.5rem", fontWeight: "bold" }}>
-          Année :
-        </label>
+      <div className="parc-filters">
+        <div className="parc-filter-item">
+          <label htmlFor="year-select">Année Publication</label>
+          <select
+            id="year-select"
+            className="parc-select"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+          >
+            <option value="">Toutes les années</option>
+            {years.map(y => (
+              <option key={y} value={y}>{y}</option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-          className="filter-control"
-        >
-          <option value="">Toutes les années</option>
+        <div className="parc-filter-item">
+          <label htmlFor="region-select">Région</label>
+          <select
+            id="region-select"
+            className="parc-select"
+            value={selectedRegion}
+            onChange={(e) => setSelectedRegion(e.target.value)}
+          >
+            <option value="">Toutes les régions</option>
+            {regions.map(region => (
+              <option key={region} value={region}>{region}</option>
+            ))}
+          </select>
+        </div>
 
-          {years.map(y => (
-            <option key={y} value={y}>
-              {y}
-            </option>
-          ))}
-        </select>
+        <div className="parc-filter-item">
+          <button
+            className="parc-reset-btn"
+            onClick={() => {
+              setSelectedYear("");
+              setSelectedRegion("");
+            }}
+          >
+            Réinitialiser
+          </button>
+        </div>
       </div>
 
-      <ParcSocialChart data={filteredData} />
+      <div className="parc-content">
+        <ParcSocialChart data={filteredData} />
+      </div>
     </div>
   );
 }
