@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Sidebar setPage={setPage} />
+      <Sidebar setPage={setPage} currentPage={page} />
 
       <div style={{ flex: 1, padding: "0" }}>
         {renderPage()}

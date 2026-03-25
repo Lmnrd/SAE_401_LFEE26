@@ -17,6 +17,7 @@
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
+    align-items: flex-end;
     background: white;
     padding: 1.25rem;
     border-radius: 12px;
@@ -52,6 +53,29 @@
     outline: none;
     border-color: #6c209bff; /* ancien : #6366f1 */
     box-shadow: 0 0 0 3px rgba(108, 32, 155, 0.2); /* ancien : rgba(99, 102, 241, 0.2) */
+}
+
+.taux-reset-btn {
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background-color: #6c209b;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+}
+
+.taux-reset-btn:hover {
+    background-color: #5a1a82;
+    box-shadow: 0 4px 12px rgba(108, 32, 155, 0.3);
+    transform: translateY(-1px);
+}
+
+.taux-reset-btn:active {
+    transform: translateY(0);
 }
 
 

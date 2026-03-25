@@ -55,5 +55,10 @@
 .sidebar button:hover {
     background-color: #f1f5f9;
     color: #6c209bff;
-    /* ancien : #6366f1 */
+}
+
+.sidebar button.active {
+    background-color: #6c209b15;
+    color: #6c209bff;
+    box-shadow: 0 2px 4px rgba(108, 32, 155, 0.1);
 }
