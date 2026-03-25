@@ -195,10 +195,21 @@
     flex-shrink: 0;
 }
 
-.parc-stat-dot.purple   { background-color: #6c209b; }
-.parc-stat-dot.violet   { background-color: #ab39e8; }
-.parc-stat-dot.lavender { background-color: #d48cf8; }
-.parc-stat-dot.light    { background-color: #e2e8f0; }
+.parc-stat-dot.purple {
+    background-color: #6c209b;
+}
+
+.parc-stat-dot.violet {
+    background-color: #ab39e8;
+}
+
+.parc-stat-dot.lavender {
+    background-color: #d48cf8;
+}
+
+.parc-stat-dot.light {
+    background-color: #e2e8f0;
+}
 
 .parc-stat-label {
     font-size: 0.8rem;
