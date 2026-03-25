@@ -11,13 +11,19 @@ import 'react-tooltip/dist/react-tooltip.css';
 import franceData from "../data/departments.json";
 // Styles spécifiques de la carte (position, couleurs, overlay, etc.)
 import "./MapFrance.css";
+import "../css_pages/tauxLogements.css";
 
 // Définition de la projection utilisée pour afficher la France :
 // - .scale() gère le niveau de zoom
 // - .translate() déplace la carte dans le SVG (coordonnées x, y)
+const MAP_WIDTH = 560;
+const MAP_HEIGHT = 520;
+
+// On centre la projection en fonction de la taille réelle de la carte.
+// (Avant: translate calé sur 900x600, d'où le décalage visuel.)
 const projection = geoConicConformalFrance()
   .scale(3200)
-  .translate([450, 300]);
+  .translate([MAP_WIDTH / 2, MAP_HEIGHT / 2]);
 
 export default function MapFrance() {
   // Département actuellement sélectionné (cliqué) sur la carte
@@ -30,6 +36,17 @@ export default function MapFrance() {
   // États pour gérer l'affichage de chargement et d'erreur
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  // Format d'affichage : 2 décimales (virgule/point selon les données)
+  const format2 = (value) => {
+    if (value === null || value === undefined || value === "") return "";
+    const n =
+      typeof value === "string"
+        ? Number(value.replace(",", "."))
+        : Number(value);
+    if (!Number.isFinite(n)) return "";
+    return n.toFixed(2);
+  };
 
   // useEffect se lance au montage du composant :
   // il appelle l'API Symfony une seule fois pour charger les données nécessaires à la carte.
@@ -106,117 +123,176 @@ export default function MapFrance() {
   }
 
   return (
+    <div className="taux-page-wrapper map-page-wrapper">
+      <h1 className="taux-page-title">Carte de France</h1>
 
-    <div className="map-container">
-      <h2>Cartographie Nationale (Carte de France)</h2>
-      {/* Partie gauche : affichage de la carte de France */}
-      <div className="map-view">
-        <ComposableMap
-          // Projection définie plus haut (conique conforme pour la France)
-          projection={projection}
-          width={900}
-          height={600}
-          style={{ width: "100%", height: "auto" }} // Rend la carte responsive
-        >
-          {/* Geographies lit le GeoJSON (franceData) et fournit la liste des géométries (= départements) */}
-          <Geographies geography={franceData}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                // On vérifie si le département de la boucle est le même que celui sélectionné
-                const isSelected = selectedDept && selectedDept.properties.code === geo.properties.code;
-                return (
-                  <Geography
-                    key={geo.rsmKey}                 // clé unique pour React
-                    geography={geo}                  // données de forme du département
-                    onClick={() => handleDeptClick(geo)} // au clic, on ouvre la fiche du département
-                    // Attributs utilisés par react-tooltip pour afficher le nom + code au survol
-                    data-tooltip-id="france-tooltip"
-                    data-tooltip-content={`${geo.properties.nom} (${geo.properties.code})`}
-                    // Styles de la carte selon l'état du département (normal, survolé, cliqué)
-                    style={{
-                      default: {
-                        // Couleur de base de chaque département et quand on ferme le département
-                        fill: isSelected ? "#6c209bff" : "#d48cf8ff", // ancien : isSelected ? "#4B7A71" : "#A4CEC6"
-                        stroke: "#ffffff",
-                        strokeWidth: 0.5,
-                        outline: "none",
-                        transition: "all 250ms"
-                      },
-                      hover: {
-                        // Couleur quand la souris est au-dessus
-                        fill: "#ab39e8ff", // ancien : "#4B7A71"
-                        stroke: "#ffffff",
-                        strokeWidth: 0.5,
-                        outline: "none",
-                        cursor: "pointer",
-                        transition: "all 250ms"
-                      },
-                      pressed: {
-                        // Couleur quand on clique
-                        fill: "#6c209bff", // ancien : "#7DA9A1"
-                        stroke: "#ffffff",
-                        strokeWidth: 0.5,
-                        outline: "none"
-                      }
-                    }}
-                  />
-                );
-              })
-            }
-          </Geographies>
-        </ComposableMap>
-        {/* Composant d'info-bulle global, lié aux data-tooltip-* définis sur Geography */}
-        <Tooltip id="france-tooltip" />
-      </div>
-
-      {/* Partie droite : "popup" (overlay) qui affiche les infos du département sélectionné */}
-      {selectedDept && (
-        // Fond semi-transparent qui recouvre la page ; un clic dessus ferme la popup
-        <div className="map-info-overlay" onClick={() => setSelectedDept(null)}>
-          {/* Carte d'information ; on stoppe la propagation du clic pour ne pas fermer en cliquant à l'intérieur */}
-          <div className="info-card" onClick={(e) => e.stopPropagation()}>
-            {/* Bouton de fermeture de la popup */}
-            <button className="close-btn" onClick={() => setSelectedDept(null)} aria-label="Fermer">
-              &times;
-            </button>
-
-            {/* Titre : nom et code du département (issus du GeoJSON) */}
-            <h3>{selectedDept.properties.nom}</h3>
-            <p>Code département : <strong>{selectedDept.properties.code}</strong></p>
-
-            {/* Affichage conditionnel en fonction de l'état du chargement et des données */}
-            {isLoading ? (
-              // Si les données sont en cours de chargement
-              <p>Chargement des données...</p>
-            ) : errorMsg ? (
-              // Si une erreur est survenue lors du fetch
-              <p className="error-text">{errorMsg}</p>
-            ) : currentCritere ? (
-              // Si on a trouvé des données pour ce département
-              <div className="db-data">
-                <h4>Statistiques ({currentCritere.anneePublication})</h4>
-                <ul>
-                  {/* Nombre d'habitants récupéré depuis l'entité Critere */}
-                  <li><strong>Population :</strong> {currentCritere.nombreHabitants} habitants</li>
-                  {/* Si on a aussi des taux de population associés, on affiche les indicateurs détaillés */}
-                  {currentTauxPop && (
-                    <>
-                      <li><strong>Densité :</strong> {currentTauxPop.densitePopulationAuKmCarre} / km²</li>
-                      <li><strong>Moins de 20 ans :</strong> {currentTauxPop.pourcPopulationMoins20Ans}%</li>
-                      <li><strong>60 ans et plus :</strong> {currentTauxPop.pourcPopulation60AnsEtPlus}%</li>
-                      <li><strong>Variation sur 10 ans :</strong> {currentTauxPop.pourcVariationPopulationSur10Ans}%</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            ) : (
-              // Cas où aucun enregistrement de la base ne correspond au département cliqué
-              <p className="no-data">Aucune donnée trouvée en base pour ce département.</p>
-            )}
-
+      <div className="map-layout">
+        <div className="map-left">
+          {/* Partie gauche : affichage de la carte de France */}
+          <div className="map-view map-map-view">
+            <div className="map-canvas">
+              <ComposableMap
+                // Projection définie plus haut (conique conforme pour la France)
+                projection={projection}
+                width={MAP_WIDTH}
+                height={MAP_HEIGHT}
+                style={{ width: "100%", height: "auto" }} // Rend la carte responsive
+              >
+                {/* Geographies lit le GeoJSON (franceData) et fournit la liste des géométries (= départements) */}
+                <Geographies geography={franceData}>
+                  {({ geographies }) =>
+                    geographies.map((geo) => {
+                      // On vérifie si le département de la boucle est le même que celui sélectionné
+                      const isSelected =
+                        selectedDept && selectedDept.properties.code === geo.properties.code;
+                      return (
+                        <Geography
+                          key={geo.rsmKey} // clé unique pour React
+                          geography={geo} // données de forme du département
+                          onClick={() => handleDeptClick(geo)} // au clic, on ouvre la fiche du département
+                          // Attributs utilisés par react-tooltip pour afficher le nom + code au survol
+                          data-tooltip-id="france-tooltip"
+                          data-tooltip-content={`${geo.properties.nom} (${geo.properties.code})`}
+                          // Styles de la carte selon l'état du département (normal, survolé, cliqué)
+                          style={{
+                            default: {
+                              // Objectif: départements plus foncés au repos
+                              fill: isSelected ? "#3f0b64ff" : "#6c209bff",
+                              stroke: "#ffffff",
+                              strokeWidth: 0.5,
+                              outline: "none",
+                              transition: "all 250ms",
+                            },
+                            hover: {
+                              // Objectif: survol plus clair (inverse de l'actuel)
+                              fill: "#d48cf8ff",
+                              stroke: "#ffffff",
+                              strokeWidth: 0.5,
+                              outline: "none",
+                              cursor: "pointer",
+                              transition: "all 250ms",
+                            },
+                            pressed: {
+                              // Couleur quand on clique
+                              fill: "#ab39e8ff",
+                              stroke: "#ffffff",
+                              strokeWidth: 0.5,
+                              outline: "none",
+                            },
+                          }}
+                        />
+                      );
+                    })
+                  }
+                </Geographies>
+              </ComposableMap>
+            </div>
+            {/* Composant d'info-bulle global, lié aux data-tooltip-* définis sur Geography */}
+            <Tooltip id="france-tooltip" />
           </div>
         </div>
-      )}
+
+        <div className="map-right">
+          {/* Partie droite : box de détails */}
+          <div className="info-card map-side-card">
+            {selectedDept && (
+              <button
+                className="close-btn"
+                onClick={() => setSelectedDept(null)}
+                aria-label="Fermer"
+              >
+                &times;
+              </button>
+            )}
+
+            {isLoading ? (
+              <p className="popup-status">Chargement des données...</p>
+            ) : errorMsg ? (
+              <p className="error-text popup-status">{errorMsg}</p>
+            ) : selectedDept ? (
+              <>
+                <h3>{selectedDept.properties.nom}</h3>
+                <p className="popup-code">
+                  <span className="db-label">Code département :</span>
+                  <span className="db-value">{selectedDept.properties.code}</span>
+                </p>
+
+                {currentCritere ? (
+                  <div className="db-data">
+                    <h4 className="stats-title">Statistiques ({currentCritere.anneePublication})</h4>
+                    <ul>
+                      <li>
+                        <span className="db-label">Population :</span>
+                        <span className="db-value">
+                          <strong>{currentCritere.nombreHabitants}</strong>{" "}
+                          <span className="db-unit">habitants</span>
+                        </span>
+                      </li>
+
+                      {currentTauxPop && (
+                        <>
+                          <li>
+                            <span className="db-label">Densité :</span>
+                            <span className="db-value">
+                              <strong>{format2(currentTauxPop.densitePopulationAuKmCarre)}</strong>{" "}
+                              <span className="db-unit">/ km²</span>
+                            </span>
+                          </li>
+                          <li>
+                            <span className="db-label">Moins de 20 ans :</span>
+                            <span className="db-value">
+                              <strong>{format2(currentTauxPop.pourcPopulationMoins20Ans)}</strong>
+                              <span className="percent">%</span>
+                            </span>
+                          </li>
+                          <li>
+                            <span className="db-label">60 ans et plus :</span>
+                            <span className="db-value">
+                              <strong>{format2(currentTauxPop.pourcPopulation60AnsEtPlus)}</strong>
+                              <span className="percent">%</span>
+                            </span>
+                          </li>
+                          <li>
+                            <span className="db-label">Variation sur 10 ans :</span>
+                            <span className="db-value">
+                              <strong>{format2(currentTauxPop.pourcVariationPopulationSur10Ans)}</strong>
+                              <span className="percent">%</span>
+                            </span>
+                          </li>
+                        </>
+                      )}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className="no-data popup-status">
+                    Aucune donnée trouvée en base pour ce département.
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="no-data popup-status">
+                Cliquez sur un département pour afficher les informations.
+              </p>
+            )}
+          </div>
+
+          <div className="map-side-card map-about-card">
+            <h3 className="map-about-title">Habitat France</h3>
+            <p className="map-about-text">
+              Bienvenue sur notre site de cartographie de la France. Ici vous pouvez explorer les
+              informations liés à chacun des départements grâce à la cartographie interactive.
+              Pour celà, il suffit de cliquer sur un département pour afficher les statistiques 
+              et comparer les tendances.<br />
+              <br />
+              Si vous souhaitez avoir accès à plus d'informations, vous pouvez consulter les autres
+              pages de notre site. Par exemple, vous pouvez consulter le parc social de chaque département
+              ou les chiffres d'habitat de chaque département.<br />
+              <br />
+              Nous espérons que vous apprécierez votre visite sur notre site.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

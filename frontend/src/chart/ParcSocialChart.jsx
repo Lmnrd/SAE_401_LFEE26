@@ -1,17 +1,19 @@
-import {
-  Chart as ChartJS,
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Filler, Title, Tooltip, Legend } from "chart.js";
+import { Chart, Doughnut } from "react-chartjs-2";
+import "../css_pages/parcSocial.css";
+
+ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
   ArcElement,
+  PointElement,
+  LineElement,
+  Filler,
   Title,
   Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar, Doughnut } from "react-chartjs-2";
-import "../css_pages/parcSocial.css";
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
+  Legend
+);
 
 export default function ParcSocialChart({ data }) {
   if (!data || data.length === 0) return <p>Aucune donnée à afficher pour le graphique.</p>;
@@ -58,51 +60,84 @@ export default function ParcSocialChart({ data }) {
   // Top 3 régions par nombre de logements
   const sortedRegions = [...labels].sort((a, b) => aggregatedData[b].nombreLogements - aggregatedData[a].nombreLogements);
 
-  // --- 1er Graphique : Bar ---
-  const chartData = {
+  // --- Graphique Principal : Combo Bar + Line (Double Échelle) ---
+  const comboChartData = {
     labels,
     datasets: [
       {
-        label: "Nombre de logements (Total)",
+        type: 'bar', // Bar for static count
+        label: "Nombre de logements (Échelle Gauche)",
         data: nombreLogementsTotals,
-        backgroundColor: "#6c209bff",
+        backgroundColor: "rgba(108, 32, 155, 0.4)", // Deeper purple for bars
         borderColor: "#6c209bff",
         borderWidth: 1,
-        borderRadius: 6,
+        borderRadius: 4,
+        yAxisID: 'y',
+        order: 2,
       },
       {
-        label: "Logements démolis (Total)",
+        type: 'line', // Line for activity/flow
+        label: "Logements démolis (Échelle Droite)",
         data: logementsDemolisTotals,
-        backgroundColor: "#ab39e8ff",
+        backgroundColor: "rgba(171, 57, 232, 0.2)",
         borderColor: "#ab39e8ff",
-        borderWidth: 1,
-        borderRadius: 6,
+        borderWidth: 3,
+        fill: false,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        yAxisID: 'y1',
+        tension: 0.4,
+        order: 1,
       },
     ],
   };
 
-  const options = {
+  const comboChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
     plugins: {
       legend: {
         position: "top",
         labels: { usePointStyle: true, padding: 15 }
       },
-      title: { display: false },
       tooltip: {
         backgroundColor: '#1e293b',
         padding: 12,
         cornerRadius: 8,
-        callbacks: {
-          label: function (context) {
-            return `${context.dataset.label}: ${context.parsed.y.toLocaleString()}`;
-          }
-        }
       }
     },
     scales: {
-      y: { beginAtZero: true },
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        title: {
+          display: true,
+          text: 'Total Logements',
+          color: '#6c209bff',
+          font: { weight: 'bold' }
+        },
+        beginAtZero: true,
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        title: {
+          display: true,
+          text: 'Démolitions',
+          color: '#ab39e8ff',
+          font: { weight: 'bold' }
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
+        beginAtZero: true,
+      },
     },
   };
 
@@ -142,6 +177,7 @@ export default function ParcSocialChart({ data }) {
     },
   };
 
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
@@ -151,8 +187,8 @@ export default function ParcSocialChart({ data }) {
 
         <div className="parc-card-content">
           {/* Colonne gauche : Graphique */}
-          <div className="parc-chart-col" style={{ height: "400px" }}>
-            <Bar data={chartData} options={options} />
+          <div className="parc-chart-col" style={{ height: "450px" }}>
+            <Chart data={comboChartData} options={comboChartOptions} />
           </div>
 
           {/* Colonne droite : Informations */}
@@ -160,10 +196,10 @@ export default function ParcSocialChart({ data }) {
             <div>
               <p className="parc-section-label">Vue d'ensemble</p>
               <p className="parc-section-title">
-                Parc social : <span className="highlight">logements</span> et <span className="highlight">démolitions</span>
+                Parc social : <span className="highlight" style={{ color: "#6c209bff" }}>logements</span> et <span className="highlight" style={{ color: "#ab39e8ff" }}>démolitions</span>
               </p>
               <p className="parc-description">
-                Ce graphique compare le nombre total de logements sociaux et le nombre de logements démolis par région. Il permet de visualiser l'effort de renouvellement du parc social sur le territoire.
+                Ce graphique compare le nombre total de logements sociaux (échelle de gauche) et le nombre de logements démolis (échelle de droite) par région. Il permet de visualiser l'effort de renouvellement malgré les différences d'échelle.
               </p>
             </div>
 
