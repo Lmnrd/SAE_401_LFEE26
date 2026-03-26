@@ -181,17 +181,17 @@ export default function ParcSocialChart({ data }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-      {/* === 1er Graphique : Logements vs Démolis par région === */}
+
       <div className="parc-card">
         <h2>Parc Social — Logements vs Démolis par Région</h2>
 
         <div className="parc-card-content">
-          {/* Colonne gauche : Graphique */}
+
           <div className="parc-chart-col" style={{ height: "450px" }}>
             <Chart data={comboChartData} options={comboChartOptions} />
           </div>
 
-          {/* Colonne droite : Informations */}
+
           <div className="parc-info-col">
             <div>
               <p className="parc-section-label">Vue d'ensemble</p>
@@ -203,7 +203,7 @@ export default function ParcSocialChart({ data }) {
               </p>
             </div>
 
-            {/* Statistiques clés */}
+
             <div className="parc-stats-grid">
               <div className="parc-stat-item">
                 <div className="parc-stat-header">
