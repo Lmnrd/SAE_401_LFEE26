@@ -228,7 +228,7 @@ export default function ParcSocialChart({ data }) {
               </div>
             </div>
 
-            {/* Top 3 régions */}
+
             {sortedRegions.length >= 3 && (
               <div className="parc-stats-grid">
                 <div className="parc-stat-item">
@@ -274,17 +274,17 @@ export default function ParcSocialChart({ data }) {
         </div>
       </div>
 
-      {/* === 2ème Graphique : Location vs Ventes (Doughnut) === */}
+
       <div className="parc-card">
         <h2>Location vs Ventes à des personnes physiques</h2>
 
         <div className="parc-card-content">
-          {/* Colonne gauche : Graphique */}
+
           <div className="parc-doughnut-container">
             <Doughnut data={doughnutData} options={doughnutOptions} />
           </div>
 
-          {/* Colonne droite : Informations */}
+
           <div className="parc-info-col">
             <div>
               <p className="parc-section-label">Affectation du Parc</p>
@@ -296,7 +296,7 @@ export default function ParcSocialChart({ data }) {
               </p>
             </div>
 
-            {/* Statistiques */}
+
             <div className="parc-stats-grid">
               <div className="parc-stat-item">
                 <div className="parc-stat-header">
