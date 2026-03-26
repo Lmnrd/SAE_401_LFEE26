@@ -14,6 +14,9 @@ export default function ParcSocialPage() {
   const [regions, setRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
 
+  const [names, setNames] = useState([]);
+  const [selectedName, setSelectedName] = useState("");
+
   useEffect(() => {
     fetch("http://localhost:8000/api/parc-social")
       .then((res) => {
@@ -33,6 +36,11 @@ export default function ParcSocialPage() {
           .filter(Boolean)
           .sort();
         setRegions(uniqueRegions);
+
+        const uniqueNames = [...new Set(json.map(item => item.critere?.nomDepartement))]
+          .filter(Boolean)
+          .sort();
+        setNames(uniqueNames);
       })
       .catch((err) => setError(err.message));
   }, []);
@@ -54,8 +62,14 @@ export default function ParcSocialPage() {
       );
     }
 
+    if (selectedName) {
+      filtered = filtered.filter(
+        item => item.critere?.nomDepartement === selectedName
+      );
+    }
+
     setFilteredData(filtered);
-  }, [selectedYear, selectedRegion, data]);
+  }, [selectedYear, selectedRegion, selectedName, data]);
 
   if (error) return <p style={{ color: "red" }}>Erreur : {error}</p>;
   if (!data) return <p>Chargement des données...</p>;
@@ -96,11 +110,27 @@ export default function ParcSocialPage() {
         </div>
 
         <div className="parc-filter-item">
+          <label htmlFor="dept-select">Département</label>
+          <select
+            id="dept-select"
+            className="parc-select"
+            value={selectedName}
+            onChange={(e) => setSelectedName(e.target.value)}
+          >
+            <option value="">Tous les départements</option>
+            {names.map(name => (
+              <option key={name} value={name}>{name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="parc-filter-item">
           <button
             className="parc-reset-btn"
             onClick={() => {
               setSelectedYear("");
               setSelectedRegion("");
+              setSelectedName("");
             }}
           >
             Réinitialiser
