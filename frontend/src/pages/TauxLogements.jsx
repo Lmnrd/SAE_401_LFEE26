@@ -130,6 +130,19 @@ export default function TauxLogementsPage() {
                         ))}
                     </select>
                 </div>
+
+                <div className="taux-filter-item">
+                    <button
+                        className="taux-reset-btn"
+                        onClick={() => {
+                            setSelectedYear("");
+                            setSelectedName("");
+                            setSelectedRegion("");
+                        }}
+                    >
+                        Réinitialiser
+                    </button>
+                </div>
             </div>
 
             <div className="taux-content">

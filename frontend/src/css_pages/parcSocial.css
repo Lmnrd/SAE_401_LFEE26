@@ -72,7 +72,7 @@
     padding: 0.625rem 1.25rem;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
-    background: linear-gradient(135deg, #6c209b, #ab39e8);
+    background-color: #6c209b;
     color: white;
     font-size: 0.85rem;
     font-weight: 600;
@@ -82,7 +82,7 @@
 }
 
 .parc-reset-btn:hover {
-    background: linear-gradient(135deg, #5a1a82, #9530cc);
+    background-color: #5a1a82;
     box-shadow: 0 4px 12px rgba(108, 32, 155, 0.3);
     transform: translateY(-1px);
 }
@@ -91,7 +91,6 @@
     transform: translateY(0);
 }
 
-/* --- Cards --- */
 .parc-card {
     background: white;
     padding: 2rem;
