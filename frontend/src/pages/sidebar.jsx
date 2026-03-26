@@ -8,32 +8,32 @@ export default function Sidebar({ setPage, currentPage }) {
             </h1>
 
             <div className="sidebar-menu" style={{ justifyContent: "flex-end" }}>
-                <button 
+                <button
                     onClick={() => setPage("parc-social")}
                     className={currentPage === "parc-social" ? "active" : ""}
                 >
                     Analyse Parc Social
                 </button>
 
-                <button 
+                <button
                     onClick={() => setPage("taux-logements")}
                     className={currentPage === "taux-logements" ? "active" : ""}
                 >
                     Taux Logements
                 </button>
 
-                <button 
+                <button
                     onClick={() => setPage("logements")}
                     className={currentPage === "logements" ? "active" : ""}
                 >
-                    Chiffres Habitat
+                    Statistique des logements
                 </button>
 
-                <button 
-                    onClick={() => setPage("main")} 
+                <button
+                    onClick={() => setPage("main")}
                     className={currentPage === "main" ? "active" : ""}
-                    style={{ 
-                        backgroundColor: currentPage === "main" ? "#6c209bff" : "transparent", 
+                    style={{
+                        backgroundColor: currentPage === "main" ? "#6c209bff" : "transparent",
                         color: currentPage === "main" ? "white" : "#64748b",
                         marginLeft: "1rem",
                         border: currentPage === "main" ? "none" : "1px solid #6c209b"
