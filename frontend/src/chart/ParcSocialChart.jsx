@@ -181,7 +181,7 @@ export default function ParcSocialChart({ data }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-      {/* === 1er Graphique : Logements vs Démolis par région === */}
+      {/* 1er Graphique : Logements vs Démolis par région */}
       <div className="parc-card">
         <h2>Parc Social — Logements vs Démolis par Région</h2>
 

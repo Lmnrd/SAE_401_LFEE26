@@ -80,9 +80,9 @@ export default function TauxLogementsChart({ data }) {
                 label: "Taux de logements vacants (%)",
                 data: series.map((item) => Number(item?.pourcTauxLogementsVacants ?? 0)),
                 fill: true,
-                backgroundColor: 'rgba(108, 32, 155, 0.1)', // #6c209b with opacity (ancien : 'rgba(245, 158, 11, 0.1)')
-                borderColor: '#6c209bff', // ancien : '#F59E0B'
-                pointBackgroundColor: '#6c209bff', // ancien : '#F59E0B'
+                backgroundColor: 'rgba(108, 32, 155, 0.1)',
+                borderColor: '#6c209bff',
+                pointBackgroundColor: '#6c209bff',
                 tension: 0.4,
                 yAxisID: 'y'
             },
@@ -90,9 +90,9 @@ export default function TauxLogementsChart({ data }) {
                 label: "Nombre total de logements",
                 data: series.map((item) => Number(item?.nombreLogements ?? 0)),
                 fill: false,
-                borderColor: '#ab39e8ff', // ancien : '#6366F1'
-                backgroundColor: '#ab39e8ff', // ancien : '#6366F1'
-                pointBackgroundColor: '#ab39e8ff', // ancien : '#6366F1'
+                borderColor: '#ab39e8ff',
+                backgroundColor: '#ab39e8ff',
+                pointBackgroundColor: '#ab39e8ff',
                 tension: 0.4,
                 yAxisID: 'y1'
             }
@@ -128,14 +128,14 @@ export default function TauxLogementsChart({ data }) {
                 display: true,
                 position: 'left',
                 grid: { drawOnChartArea: false },
-                title: { display: true, text: 'Taux (%)', color: '#6c209bff', font: { weight: 'bold' } }, // Ancienne couleur : '#F59E0B'
+                title: { display: true, text: 'Taux (%)', color: '#6c209bff', font: { weight: 'bold' } },
                 ticks: { callback: (value) => value + ' %' }
             },
             y1: {
                 type: 'linear',
                 display: true,
                 position: 'right',
-                title: { display: true, text: 'Volume Logements', color: '#ab39e8ff', font: { weight: 'bold' } }, // Ancienne couleur : '#6366F1'
+                title: { display: true, text: 'Volume Logements', color: '#ab39e8ff', font: { weight: 'bold' } },
             },
         },
     };
@@ -148,7 +148,7 @@ export default function TauxLogementsChart({ data }) {
                 firstItem.pourcTauxLogementsSociaux,
                 (100 - firstItem.pourcTauxLogementsSociaux).toFixed(2)
             ],
-            backgroundColor: ['#6c209bff', '#E2E8F0'], // ancien : ['#6366F1', '#E2E8F0']
+            backgroundColor: ['#6c209bff', '#E2E8F0'],
             borderColor: '#ffffff',
             borderWidth: 2,
             hoverOffset: 8
@@ -190,7 +190,7 @@ export default function TauxLogementsChart({ data }) {
                                 Analyse Territoriale
                             </p>
                             <p style={{ margin: "0.5rem 0", fontSize: "1.5rem", fontWeight: "800", color: "#1e293b", letterSpacing: "-0.025em" }}>
-                                {firstItem.critere?.nomDepartement} <span style={{ color: "#6c209bff" }}>({firstItem.critere?.anneePublication})</span>{/* Ancienne couleur : #6366f1 */}
+                                {firstItem.critere?.nomDepartement} <span style={{ color: "#6c209bff" }}>({firstItem.critere?.anneePublication})</span>
                             </p>
                             <p style={{ fontSize: "0.95rem", color: "#475569", lineHeight: "1.6" }}>
                                 Ce graphique présente la répartition structurelle du parc immobilier. L'analyse de ces données permet de comprendre les spécificités du marché local et d'orienter les politiques publiques d'aménagement.
@@ -210,21 +210,21 @@ export default function TauxLogementsChart({ data }) {
                             {/* PARTIE INFOS DES GRAPHS */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#6c209bff" }}></div>{/* Ancienne couleur : #6366F1 */}
+                                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#6c209bff" }}></div>
                                     <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: "600" }}>SOCIAL</span>
                                 </div>
                                 <span style={{ fontSize: "1.25rem", fontWeight: "700", color: "#1e293b" }}>{firstItem.pourcTauxLogementsSociaux}%</span>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ab39e8ff" }}></div>{/* Ancienne couleur : #F59E0B */}
+                                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ab39e8ff" }}></div>
                                     <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: "600" }}>VACANT</span>
                                 </div>
                                 <span style={{ fontSize: "1.25rem", fontWeight: "700", color: "#1e293b" }}>{firstItem.pourcTauxLogementsVacants}%</span>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#d48cf8ff" }}></div>{/* Ancienne couleur : #94A3B8 */}
+                                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#d48cf8ff" }}></div>
                                     <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: "600" }}>INDIVIDUEL</span>
                                 </div>
                                 <span style={{ fontSize: "1.25rem", fontWeight: "700", color: "#1e293b" }}>{firstItem.pourcTauxLogementsIndividuels}%</span>
@@ -245,7 +245,7 @@ export default function TauxLogementsChart({ data }) {
             </div>
 
 
-            {/* 2ème Graphique : Évolution (Line) */}
+            {/* 2ème Graphique : Évolution */}
             <div className="taux-card">
                 <h2>Évolution temporelle et volume du parc</h2>
                 <div style={{
@@ -267,7 +267,7 @@ export default function TauxLogementsChart({ data }) {
                                 Analyse de Tendance
                             </p>
                             <p style={{ margin: "0.5rem 0", fontSize: "1.5rem", fontWeight: "800", color: "#1e293b", letterSpacing: "-0.025em" }}>
-                                Dynamiques de <span style={{ color: "#ab39e8ff" }}>vacance</span> et de <span style={{ color: "#6c209bff" }}>volume</span>{/* Anciennes couleurs : #f59e0b and #6366f1 */}
+                                Dynamiques de <span style={{ color: "#ab39e8ff" }}>vacance</span> et de <span style={{ color: "#6c209bff" }}>volume</span>
                             </p>
                             <p style={{ fontSize: "0.95rem", color: "#475569", lineHeight: "1.6" }}>
                                 Ce graphique croise deux indicateurs fondamentaux : le taux de vacance (en orange) et le volume total de logements (en bleu). Cette double lecture permet d'identifier si l'augmentation des logements s'accompagne d'une occupation réelle ou d'une hausse de l'inoccupation.
@@ -276,10 +276,10 @@ export default function TauxLogementsChart({ data }) {
 
                         <div style={{
                             padding: "1.25rem",
-                            backgroundColor: "rgba(108, 32, 155, 0.1)", // ancien : #fef3c7
+                            backgroundColor: "rgba(108, 32, 155, 0.1)",
                             borderRadius: "12px",
-                            border: "1px solid #6c209bff", // ancien : #fcd34d
-                            color: "#6c209bff" // ancien : #92400e
+                            border: "1px solid #6c209bff",
+                            color: "#6c209bff"
                         }}>
                             <h4 style={{ margin: "0 0 0.5rem 0", fontSize: "0.9rem", fontWeight: "700" }}>Focus sur la vacance :</h4>
                             <p style={{ fontSize: "0.85rem", lineHeight: "1.4", margin: 0 }}>
@@ -317,7 +317,7 @@ export default function TauxLogementsChart({ data }) {
                             Indicateur Social
                         </p>
                         <p style={{ margin: "0.5rem 0", fontSize: "1.5rem", fontWeight: "800", color: "#6c209bff", letterSpacing: "-0.025em" }}>
-                            Part du Parc Locatif Social {/* Ancienne couleur : #6366f1 */}
+                            Part du Parc Locatif Social
                         </p>
 
                         <div style={{
