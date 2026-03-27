@@ -255,7 +255,7 @@ export default function TauxLogementsChart({ data }) {
                     alignItems: "center",
                     marginTop: "2rem"
                 }}>
-                    {/* Colonne de gauche : Le Graphique (Agrandi) */}
+                    {/* Colonne de gauche : Le Graphique */}
                     <div style={{ flex: "1 1 500px", height: "450px" }}>
                         <Line data={lineData} options={{ ...lineOptions, maintainAspectRatio: false }} />
                     </div>
